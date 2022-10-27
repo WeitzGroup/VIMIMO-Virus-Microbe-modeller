@@ -17,7 +17,7 @@ load(current_dir+"/../data/parameters"); % true parameter set with nans  %loads 
 
 
 % __by__raunak
-flags.tau_mult = 4;
+flags.tau_mult = 1;
 flags.ssfun_normalized = 1;
 flags.mcmc_algorithm = 1;
 flags.phi_entire_matrix=1;
@@ -66,11 +66,12 @@ mcmcparam = mcmcpars2param(mcmcpars);
 model = SEIV(5,5,10);
 lambda = 0; 
 
-mcmcmodel.ssfun = @(theta,data) ssfun(theta,data,pars1,mcmcpars,model,lambda);  
+%mcmcmodel.ssfun = @(theta,data) ssfun(theta,data,pars1,mcmcpars,model,lambda); 
+mcmcmodel.ssfun = @(theta,data) ssfun(theta,data,model,pars1,mcmcpars);
 mcmcmodel.N = length(data.xdata);  % total number of observations 
 
 
-mcmcoptions.nsimu = 500;
+mcmcoptions.nsimu = 50;
 
 [mcmcresults, chain, s2chain]= mcmcrun(mcmcmodel,data,mcmcparam,mcmcoptions);
 
@@ -81,12 +82,13 @@ fprintf('simulating timeseries...\n');
 %pars_from_dist = @(chain) mean(chain);
 pars_from_dist = @(chain) median(chain);
 
-transient_id=1; % so 1001 to 10k is used
+transient_id=10; % so 1001 to 10k is used
 pars2 = update_pars(pars1,pars_from_dist(chain(transient_id:end,:)),mcmcpars);
 tvec = 0:0.05:15.75; % for better viz
 [t1,S1,V1,D1] = simulate_ode(model,pars1,tvec,pars1.S0,pars1.V0); % initial parameter set
 [t2,S2,V2,D2] = simulate_ode(model,pars2,tvec,pars2.S0,pars2.V0); % mcmc parameter set
-clear tvec;
+
+clear tvec; 
 
 %% plotting section
 figure(5)
@@ -108,7 +110,7 @@ end
 %%%%%%%%% ____ error thing starts here ____ %%%%%%%%%
 
 % compute error and envelope - very slow, do not run locally
-if contains(dirstr,'cluster')
+%if contains(dirstr,'cluster')
 
     %% compute error for each step in the chain
     fprintf('calculating error...\n');
@@ -124,4 +126,4 @@ if contains(dirstr,'cluster')
     fprintf('calculating timeseries envelope...\n');
     tsenv = compute_envelope(model,mcmcpars,pars2,chain,err,transient_id);
 
-end
+%end
