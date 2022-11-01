@@ -1,4 +1,4 @@
-function mcmcpars = mcmcpars_setup(pars, pars_example, flags)
+function mcmcpars = mcmcpars_setup(pars, pars_example, include_pars, flags,model)
 % default values - sub-index (which elements for each parameter), limits, priors, and starting values
 % default values are calculated from values within pars and pars_example
 
@@ -57,15 +57,13 @@ else % entire matrix
     tmp_mcmcpars.phi.priormu = tmpphi;
     tmp_mcmcpars.phi.priorstd = 10*ones(numel(pars.phi),1);
 end
-
-
-% comment this
-% if exist('flags','var') && flags.phi_uniform==1 % identical start values and uniform priors
-%     tmp_mcmcpars.phi.startval = 1e-7*ones(size(tmp_mcmcpars.phi.startval));
-%     tmp_mcmcpars.phi.priormu = 1e-7*ones(size(tmp_mcmcpars.phi.priormu));
-%     tmp_mcmcpars.phi.priorstd = Inf*ones(size(tmp_mcmcpars.phi.priorstd));
-% end
-
+%{
+if exist('flags','var') && flags.phi_uniform==1 % identical start values and uniform priors
+    tmp_mcmcpars.phi.startval = 1e-7*ones(size(tmp_mcmcpars.phi.startval));
+    tmp_mcmcpars.phi.priormu = 1e-7*ones(size(tmp_mcmcpars.phi.priormu));
+    tmp_mcmcpars.phi.priorstd = Inf*ones(size(tmp_mcmcpars.phi.priorstd));
+end
+%}
 
 % inverse latent period eta
 tmp_mcmcpars.eta.log = 0;
@@ -131,6 +129,18 @@ if exist('flags','var') && flags.uniform_priors==1
    end
 end
 %}
+
+
+if model.debris_inhib == 1
+    tmp_mcmcpars.Dc.log = 1;
+    tmp_mcmcpars.Dc.subid = 1;
+    tmp_mcmcpars.Dc.lims = [1e4 1e9];
+    tmp_mcmcpars.Dc.startval = pars_example.Dc;
+    tmp_mcmcpars.Dc.priormu = pars_example.Dc;
+    tmp_mcmcpars.Dc.priorstd = +Inf;
+
+end
+
 
 % only include these parameters
 if ~exist('include_pars','var') || isempty(include_pars) % everything by default
