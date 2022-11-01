@@ -27,7 +27,7 @@ end
 
 % directory setup
 dirstr = sprintf('results/%s/%s_%s_%s_%s',local_or_cluster,modelstr,odestr,parstr,flagstr);
-if ~exist(dirstr,'dir')
+if ~isfolder(dirstr)
     mkdir(dirstr)
 end
 
