@@ -142,6 +142,17 @@ if model.debris_inhib == 1
 end
 
 
+if model.lysis_reset == 1
+    tmp_mcmcpars.epsilon_reset.log = 0;
+    tmp_mcmcpars.epsilon_reset.subid = 1;
+    tmp_mcmcpars.epsilon_reset.lims = [0 1];
+    tmp_mcmcpars.epsilon_reset.startval = pars_example.epsilon_reset;
+    tmp_mcmcpars.epsilon_reset.priormu = pars_example.epsilon_reset;
+    tmp_mcmcpars.epsilon_reset.priorstd = +Inf;
+
+end
+
+
 % only include these parameters
 if ~exist('include_pars','var') || isempty(include_pars) % everything by default
    include_pars = fieldnames(tmp_mcmcpars);

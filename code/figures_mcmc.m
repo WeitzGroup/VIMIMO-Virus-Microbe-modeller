@@ -39,6 +39,9 @@ clear fig;
 
 %% timeseries2, with enevelope
 fig = plot_timeseries2(model,t2,S2,V2); % mcmc result
+%fig = plotting_confidence_interval(model,t2,S2,V2,filestr,2,S_max,S_min,V_max,V_min); % mcmc result
+
+
 if exist('tsenv','var') && ~isempty(tsenv)
     overlay_timeseries2_envelope(fig,tsenv)
 end
