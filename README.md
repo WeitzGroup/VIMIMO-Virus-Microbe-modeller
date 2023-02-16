@@ -18,3 +18,17 @@ Tutorials to use this can be found in the example folder.
 
 * The dataset included (for now) is from the [Sullivan lab](https://u.osu.edu/viruslab/) at The Ohio State University. 
 * The models build for this project are primarily build by the members of the [Weitz group](https://weitzgroup.biosci.gatech.edu) at Georgia Institute of Technology. 
+
+## Features
+
+### On Modelling side
+
+* Succeptible, Exposed and Infected compartmental model for viruses and microbes
+* Additional lysis inhibition mechanism -- effective change in adsoption due to debris, virus attaching to debris with certain probability, lysis reset due to multiple infections.
+
+### On inference
+ 
+* DRAM - MCMC based pipeline for parameter inference
+* AIC based model testing 
+
+
