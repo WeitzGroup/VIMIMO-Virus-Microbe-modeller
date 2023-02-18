@@ -30,5 +30,6 @@ Tutorials to use this can be found in the example folder.
  
 * DRAM - MCMC based pipeline for parameter inference
 * AIC based model testing 
+* Robustness and sensitivity of parameter testing
 
 
