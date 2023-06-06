@@ -32,8 +32,15 @@ end
 if model.lysis_reset == 1
     include_pars{end+1} = 'epsilon_reset';
 end
-
+```
+ Load the data and parameter values,
+ ```matlab
+load('data/qpcr','data'); % qpcr data
+load('data/parameters_example','pars'); % parameters without nans
+pars1 = pars;
+load('data/parameters'); % true parameter set with nans
  ```
+ 
  If different number of latent compartments are needed to model the data, the parameter can be changed, such as 
  ```matlab
  pars.NE = 10*(pars.M == 1);
