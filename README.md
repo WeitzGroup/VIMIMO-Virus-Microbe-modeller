@@ -19,7 +19,21 @@
  ```
  git clone git@github.com:mjlaine/mcmcstat.git
  ```
- Rest of the tutorial with our script files will be added later on.
+ Here is a minimalistic example. First specify the model used in the inference protocol. Here we show a SEIV model with 5 host, 5 phages and 70 latent compartments for each combinations. (Note, these numbers can be varied for each interaction). 
+
+ ```
+ model = SEIV_diff_NE(5,5,70);
+
+include_pars = {'r','beta','phi','epsilon','tau'};
+if model.debris_inhib == 1 || 2 || 3
+    include_pars{end+1} = 'Dc';
+end
+
+if model.lysis_reset == 1
+    include_pars{end+1} = 'epsilon_reset';
+end
+
+ ```
 
  ## Datasets and modelling
 
