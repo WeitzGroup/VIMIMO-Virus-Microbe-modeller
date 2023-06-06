@@ -39,6 +39,63 @@ end
  pars.NE = 10*(pars.M == 1);
 pars.NE(i,j) = ##input list here
  ```
+Before the inference protocol include the settings of the model and inference parameters 
+```matlab
+flags.phi_entire_matrix = 0;
+flags.ssfun_normalized = 0;
+flags.tau_mult = 1;
+flags.mcmc_algorithm = 1; % default is 1 ('dram')
+flags.inference_script = 1;
+flags.confidence_interval = 0;
+flags.tau_new = 0;
+
+mcmcoptions.nsimu = 10000;
+transient_id = 1;
+lambda = 0;
+
+max_NE = round(max(max(pars.NE)));
+model = SEIV_diff_NE(5,5,max_NE);
+model.host_growth = 0;
+model.viral_decay = 0;
+model.viral_adsorb = 0;
+model.lysis_reset = 0;
+model.debris_inhib = 2;
+```
+To include the the inhibition of lysis, use the following settings.
+```matlab
+% controlling settings for debris inhibition
+if model.debris_inhib == 1 || 2 || 3
+    %pars1.Dc = 1e8;
+    %pars1.Dc = 4389100;
+    pars1.Dc = 3.9e6;
+    pars_labels.Dc = "";
+    pars_units.Dc = "1/ml";
+end
+
+
+% controlling lysis 
+if model.lysis_reset == 1
+    pars1.epsilon_reset = 0.01;
+    pars_labels.epsilon_reset = "";
+    pars_units.epsilon_reset = "";
+end
+```
+
+To run the forward model and inference scheme, use
+```matlab
+pars1.tau(pars1.tau>0) = 1./pars1.eta(pars1.tau>0);
+tvec = 0:0.05:15.75; % for better viz
+[t1,S1,V1,D1] = simulate_ode(model,pars1,tvec,pars1.S0,pars1.V0); % initial parameter set
+
+%% inference
+
+if flags.inference_script == 1
+    inference_script;
+end
+
+```
+
+
 
  ## Datasets and modelling
 
