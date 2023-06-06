@@ -104,10 +104,11 @@ end
 
 
 
- ## Datasets and modelling
+ ## Contributors
 
  * The dataset included (for now) is from the [Sullivan lab](https://u.osu.edu/viruslab/) at The Ohio State University. 
- * The models build for this project are primarily build by the members of the [Weitz group](https://weitzgroup.biosci.gatech.edu) at Georgia Institute of Technology. 
+ * The models build for this project are primarily build by the members of the [Weitz group](https://weitzgroup.biosci.gatech.edu) at Georgia Institute of Technology.
+ * Additionally, we are working on creating a library of VIrus MIcrobe interaction MOdels, if you want to contribute, contact Raunak Dey at rdey33@gatech.edu 
 
  ## Features
 
@@ -121,4 +122,5 @@ end
  * DRAM - MCMC based pipeline for parameter inference
  * AIC based model testing 
  * Robustness and sensitivity of parameter testing
+ 
 
