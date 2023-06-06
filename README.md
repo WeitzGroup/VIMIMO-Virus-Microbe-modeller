@@ -34,6 +34,11 @@ if model.lysis_reset == 1
 end
 
  ```
+ If different number of latent compartments are needed to model the data, the parameter can be changed, such as 
+ ```matlab
+ pars.NE = 10*(pars.M == 1);
+pars.NE(i,j) = ##input list here
+ ```
 
  ## Datasets and modelling
 
