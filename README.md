@@ -21,7 +21,7 @@
  ```
  Here is a minimalistic example. First specify the model used in the inference protocol. Here we show a SEIV model with 5 host, 5 phages and 70 latent compartments for each combinations. (Note, these numbers can be varied for each interaction). 
 
- ```
+ ```matlab
  model = SEIV_diff_NE(5,5,70);
 
 include_pars = {'r','beta','phi','epsilon','tau'};
