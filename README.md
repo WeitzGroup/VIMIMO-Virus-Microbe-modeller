@@ -64,7 +64,7 @@ model.debris_inhib = 2;
 ```
 
 Include parameters for the inference protocol.
-```
+```matlab
 include_pars = {'r','beta','phi','epsilon','tau'};
 if model.debris_inhib == 1 || 2 || 3
     include_pars{end+1} = 'Dc';
