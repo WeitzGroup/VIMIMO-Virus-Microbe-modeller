@@ -34,6 +34,10 @@ load('data/parameters_example','pars'); % parameters without nans
 pars1 = pars;
 load('data/parameters'); % true parameter set with nans
  ```
+ At this stage, there mught be some bugs on folder structure, use this to resolve brute-force,
+ ```matlab
+ addpath(genpath(pwd)); % add current directory to path (mcmcstat is included)
+ ```
  
  If different number of latent compartments are needed to model the data, the parameter can be changed, such as 
  ```matlab
