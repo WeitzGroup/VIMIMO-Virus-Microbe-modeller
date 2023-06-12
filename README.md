@@ -26,15 +26,6 @@
 
  ```matlab
  model = SEIV_diff_NE(5,5,70);
-
-include_pars = {'r','beta','phi','epsilon','tau'};
-if model.debris_inhib == 1 || 2 || 3
-    include_pars{end+1} = 'Dc';
-end
-
-if model.lysis_reset == 1
-    include_pars{end+1} = 'epsilon_reset';
-end
 ```
  Load the data and parameter values,
  ```matlab
@@ -71,6 +62,21 @@ model.viral_adsorb = 0;
 model.lysis_reset = 0;
 model.debris_inhib = 2;
 ```
+
+Include parameters for the inference protocol.
+```
+include_pars = {'r','beta','phi','epsilon','tau'};
+if model.debris_inhib == 1 || 2 || 3
+    include_pars{end+1} = 'Dc';
+end
+
+if model.lysis_reset == 1
+    include_pars{end+1} = 'epsilon_reset';
+end
+```
+
+
+
 To include the the inhibition of lysis, use the following settings.
 ```matlab
 % controlling settings for debris inhibition
