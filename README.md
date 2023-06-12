@@ -1,5 +1,4 @@
-
-![alt text](https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/tree/main/res/logo.png)
+<img width="1417" alt="logo" src="https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/assets/39820997/1987e158-cfcd-482d-ab3b-f74bafa8b394">
 
 
 # Community model for virus microbe interactions
