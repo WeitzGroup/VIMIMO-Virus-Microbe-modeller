@@ -18,7 +18,7 @@
 
  ## Tutorials
 
- Tutorials to use this can be found in the example folder. To run this pipeline you have to use the mcmcstat code, for which a package has not been published. So we are just going to clone it in our repository. 
+ Tutorials to use this can be found in the example folder. To run this pipeline you have to use the mcmcstat code, for which a package has not been published. So we are just going to clone it in our repository. For more detailed explanations on usage check out our [Example Notebooks](./example_notebooks)
  ```
  git clone git@github.com:mjlaine/mcmcstat.git
  ```
