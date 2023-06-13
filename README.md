@@ -5,8 +5,6 @@
 
  Please note that our project is in beta phase and constantly updating. In our final version we aim to include a dictionary of mechanistic non-linear models to perform both predictive analysis as well as inference on population time series of viruses and microbes.
 
- test
-
 
  ## Welcome to VIMIMO: a <u>VI</u>rus <u>MI</u>crobe <u>MO</u>deller package
 
