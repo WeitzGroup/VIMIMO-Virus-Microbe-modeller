@@ -134,8 +134,8 @@ end
  * AIC based model testing 
  * Robustness and sensitivity of parameter testing
  
-### Cite 
+## Cite 
 
 If you use VIMIMO as a tool in your own research, please cite our software package.
 We have used VIMIMO for modeling a mock community of 5 microbes and 5 viruses: which you can cite as (--to be included once arxived --)
-
+If you want to regenerate all the figures used in the figure use this [script](./scripts/scripts_for_figures/manuscript_figures.m) or take a look at this notebook [script](./scripts/scripts_for_figures/manuscript_figure_generators.mlx)
