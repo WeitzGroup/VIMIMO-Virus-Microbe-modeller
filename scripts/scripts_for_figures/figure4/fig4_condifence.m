@@ -13,7 +13,7 @@ color_ofthe_fit = [1 0 0]*0.5;
 color_ofthe_fill = [0.95 0 0];
 transparency = 0.25;
 %%
-hf = figure(2)
+hf4 = figure;
 subplot(2,5,1)
 errorbar(time/60,mean(1e3*host1'),std(1e3*host1'),'o','MarkerSize',8,'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255]);hold on;
 set(gca, 'YScale', 'log');
@@ -186,7 +186,7 @@ ylim([1e4 1e11]);
     %legend('Data','95% confidence interval','Bayesian fit');
     %legend('Box','off');
 
-han=axes(hf,'visible','off'); 
+han=axes(hf4,'visible','off'); 
 han.Title.Visible='on';
 han.XLabel.Visible='on';
 han.YLabel.Visible='on';
