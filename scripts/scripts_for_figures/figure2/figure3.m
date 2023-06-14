@@ -1,6 +1,6 @@
 clear all;
 
-addpath(genpath('/Users/rdey33/Downloads/VIMIMO'));
+addpath(genpath('./../..'));
 
 % import data
 load('data/qpcr','data'); % qpcr data
