@@ -6,7 +6,6 @@ addpath(genpath('./..'))
 
 %here is figure 1
 cd('./figure1/')
-fig1_parameters;
 figure1;
 cd ..
 
@@ -27,4 +26,10 @@ cd('./figure5');
 life_history_compare_new;
 cd('./..');
 
+cd('./figure1/')
+fig1_parameters;
+cd ..
+
+cd('./figure2/');
+figure3;
 
