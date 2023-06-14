@@ -37,7 +37,7 @@ color_def = [111,193,157]./255;
 
 
 figure
-subplot(2,3,1)
+subplot(1,5,1)
 plot(x-0.1,beta_onestep_conventional,'^','MarkerSize',14,'MarkerFaceColor',color_def2,'Color',color_def2);
 hold on;
 errorbar(x+0.1,beta_onestep,beta_onestep_error,'bo','MarkerSize',14,'MarkerFaceColor',color_def,'Color',color_def);
@@ -63,7 +63,7 @@ xticklabels([1,2,3,5,6,7,8,9]);
 xlim([0 9]);
 
 
-subplot(2,3,3)
+subplot(1,5,3)
 plot(x-0.1,phi_onestep_conventional,'^','MarkerSize',14,'MarkerFaceColor',color_def2,'Color',color_def2);
 hold on;
 errorbar(x+0.1,phi_onestep,phi_onestep_error,'bo','MarkerSize',14,'MarkerFaceColor',color_def,'Color',color_def);
@@ -82,7 +82,7 @@ cv_mean_onestep  = 1./sqrt(boxes_onestep);
 cv_onestep_error = 0.5* (boxes_onestep).^(-1.5).*boxes_onestep_error;
 %cv_onestep_error  = 1./sqrt(boxes_onestep + boxes_onestep_error) - 1./sqrt(boxes_onestep + boxes_onestep_error)
 
-subplot(2,3,4)
+subplot(1,5,4)
 errorbar(x,cv_mean_onestep,cv_onestep_error,'ko','MarkerSize',14,'MarkerFaceColor',color_def,'Color',color_def);
 title({'Coefficient of',' variation (CV)'});
 set(gca,'FontSize',18);
@@ -93,7 +93,7 @@ ylim([0 0.25])
 xlim([0 9]);
 
 
-subplot(2,3,5)
+subplot(1,5,5)
 plot(1:5,r_onestep_conventional,'^','MarkerSize',14,'MarkerFaceColor',color_def2,'Color',color_def2);
 title({'Growth rate','r (cells/hr)'});
 ylim([0.15 0.3]);
