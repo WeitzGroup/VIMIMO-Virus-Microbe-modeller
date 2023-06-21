@@ -35,12 +35,11 @@ The models are.
 ### Supplementary Information
  Next, look at the examples of how the supplementary figures were generated at supple_post_processing.
 The figures are generated using the following scripts.
-* [debris_plot](./../tools/debris_plot)
-* [CV_NE](./../tools/CV_NE)
-* [debris_plot](./../tools/debris_plot)
-* [gelman2](./../tools/gelman2)
-* [trace_plots_compare_V2](./../tools/trace_plots_compare_V2)
-* [AIC_plot](./../tools/AIC_plot)
+* [debris_plot](./../tools/debris_plot.m)
+* [CV_NE](./../tools/CV_NE.m)
+* [gelman2](./../tools/gelman2.m)
+* [trace_plots_compare_V2](./../tools/trace_plots_compare_V2.m)
+* [AIC_plot](./../tools/AIC_plot.m)
 
 
 
