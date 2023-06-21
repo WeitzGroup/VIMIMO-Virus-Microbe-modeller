@@ -3,7 +3,7 @@ clc;
 
 
 
-load('./figure4/SEIVD_datasheet.mat');
+load('SEIVD_datasheet.mat');
 
 % approximately equal.
 sigma_S = (S_max - S_min)./4;
@@ -24,7 +24,7 @@ sigma_V = sigma_V(1:11:303,:);
 llf = sum(sum( (-(data_S - mu_S).^2./(2*sigma_S.^2))   + (-(data_V - mu_V).^2./(2*sigma_V.^2)))) + sum(sum(-log(1/sqrt(2*pi)./sigma_S)/log(10)) + sum(-log(1/sqrt(2*pi)./sigma_V)/log(10)))    ;
 AIC(1) = 2*43 - 2*llf
 
-load('./figure3/SEIV_datasheet.mat');
+load('SEIV_datasheet.mat');
 
 
 
