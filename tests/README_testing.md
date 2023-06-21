@@ -9,8 +9,9 @@ Some of the scripts may redirect to other used functions which the reviewer migh
 ### ROADMAP: One step inference
 Take a look at the [one_step_inference_examples](one_step_inference_examples) script to begin with, shown for one of the pairs of host and phage.
 The script used the functions:
-* [one_step_simulate](./../src/one-step-src/one_step_simulate) -- this further uses.
-* [one_step_before_dilution](./../src/one-step-src/one_step_eqn_before_dilution) -- THIS FUNCTION CONTAINS THE DIFFERENTIAL EQUATIONS -- CHECK WITH SUPPLEMENTATY INFO PART S1.1 MODEL A.
+
+* [one_step_simulate](./../src/one-step-src/one_step_simulate.m) -- this further uses.
+* [one_step_before_dilution](./../src/one-step-src/one_step_eqn_before_dilution.m) -- THIS FUNCTION CONTAINS THE DIFFERENTIAL EQUATIONS -- CHECK WITH SUPPLEMENTATY INFO PART S1.1 MODEL A.
 <img width="391" alt="image" src="https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/assets/39820997/513250c5-e8cc-4afe-9a00-801dc6339a01">
 
 
