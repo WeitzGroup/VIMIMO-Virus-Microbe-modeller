@@ -82,7 +82,7 @@ end
 To include the the inhibition of lysis, use the following settings.
 ```matlab
 % controlling settings for debris inhibition
-if model.debris_inhib == 1 || 2 || 3
+if (model.debris_inhib == 1 || model.debris_inhib ==  2 || model.debris_inhib ==  3)
     %pars1.Dc = 1e8;
     %pars1.Dc = 4389100;
     pars1.Dc = 3.9e6;
