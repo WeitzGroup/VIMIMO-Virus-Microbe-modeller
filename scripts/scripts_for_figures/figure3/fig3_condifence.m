@@ -1,10 +1,9 @@
 clear all;
 
-addpath(genpath('/Users/rdey33/Downloads/VIMIMO'));
 
 
 %% raw data
-load('./../../triplicate_data.mat');
+load('./../../../data/triplicate_data.mat');
 load('./SEIV_datasheet.mat');
  time_2 = [t2', fliplr(t2')];
 linewidth = 2;
