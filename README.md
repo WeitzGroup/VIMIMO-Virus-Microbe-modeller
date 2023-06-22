@@ -1,7 +1,7 @@
 <img width="1417" alt="logo" src="https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/assets/39820997/1987e158-cfcd-482d-ab3b-f74bafa8b394">
 
 
-# Community model for virus microbe interactions
+# Community model for virus microbe infection networks
 
  Please note that our project is in beta phase and constantly updating. In our final version we aim to include a dictionary of mechanistic non-linear models to perform both predictive analysis as well as inference on population time series of viruses and microbes.
 
