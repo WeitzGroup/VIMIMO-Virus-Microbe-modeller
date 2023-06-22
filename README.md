@@ -14,6 +14,10 @@
  * Given your model you can create Bayesian inference schemees to extract parameters out of your model.
  * In a multimodel inference scheme you can compare between models using a model validation pipeline
 
+   Here is an example of a Virus Microbe Network model.
+   <img width="479" alt="image" src="https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/assets/39820997/94fed00a-5d3a-411f-a711-e14d44ce5fb6">
+
+
  ## Tutorials
 
  Tutorials to use this can be found in the example folder. To run this pipeline you have to use the mcmcstat code, for which a package has not been published. So we are just going to clone it in our repository. For more detailed explanations on usage check out our [Example Notebooks](./example_notebooks)
