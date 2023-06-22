@@ -33,7 +33,7 @@ The models are.
 * Figure 5 -- collection of all the parameters -- plotted from stored datasets -- using [life_history_compare_new](./../scripts/scripts_for_figures/figure5/life_history_compare_new.m)
 
 ### Supplementary Information
- Next, look at the examples of how the supplementary figures were generated at supple_post_processing.
+ Next, look at the examples of how the supplementary figures were generated at [supple_post_processing](./supple_post_processing.m)
 The figures are generated using the following scripts.
 * [debris_plot](./../tools/debris_plot.m)
 * [CV_NE](./../tools/CV_NE.m)
