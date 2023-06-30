@@ -185,6 +185,16 @@ if (model.debris_inhib == 1 || model.debris_inhib == 2 || model.debris_inhib == 
 
 end
 
+if (model.debris_inhib == 1 || model.debris_inhib == 2 || model.debris_inhib == 3)
+    tmp_mcmcpars.Dc2.log = 1;
+    tmp_mcmcpars.Dc2.subid = 1;
+    tmp_mcmcpars.Dc2.lims = [1e4 1e9];
+    tmp_mcmcpars.Dc2.startval = pars_example.Dc;
+    tmp_mcmcpars.Dc2.priormu = pars_example.Dc;
+    tmp_mcmcpars.Dc2.priorstd = +Inf;
+
+end
+
 
 if model.lysis_reset == 1
     tmp_mcmcpars.epsilon_reset.log = 0;
