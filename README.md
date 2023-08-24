@@ -1,7 +1,9 @@
+![Build Status](https://circleci.com/gh/<RaunakDey>/<VIMIMO-Virus-Microbe-modeller>.svg?style=shield&circle-token=:circle-token)
+
 <img width="1417" alt="logo" src="https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/assets/39820997/1987e158-cfcd-482d-ab3b-f74bafa8b394">
 
 
-# Community model for virus microbe interactions
+# Community model for virus microbe infection networks
 
  Please note that our project is in beta phase and constantly updating. In our final version we aim to include a dictionary of mechanistic non-linear models to perform both predictive analysis as well as inference on population time series of viruses and microbes.
 
@@ -13,6 +15,11 @@
  * You can manually turn on/off parts of models which is applicable to your system. If you have no idea you can tell the package to look for feasible models. If you already have some idea use that to turn on/off different features.
  * Given your model you can create Bayesian inference schemees to extract parameters out of your model.
  * In a multimodel inference scheme you can compare between models using a model validation pipeline
+
+   Here is an example of a Virus Microbe Network model.
+<div style="text-align:center">
+<img width="479" alt="image" src="https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/assets/39820997/94fed00a-5d3a-411f-a711-e14d44ce5fb6"> 
+</div>
 
  ## Tutorials
 
@@ -82,7 +89,7 @@ end
 To include the the inhibition of lysis, use the following settings.
 ```matlab
 % controlling settings for debris inhibition
-if model.debris_inhib == 1 || 2 || 3
+if (model.debris_inhib == 1 || model.debris_inhib ==  2 || model.debris_inhib ==  3)
     %pars1.Dc = 1e8;
     %pars1.Dc = 4389100;
     pars1.Dc = 3.9e6;
