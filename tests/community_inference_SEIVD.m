@@ -16,7 +16,6 @@ flags.tau_new = 0;
 % takes a long time.
 
 
-
 flags.inference_script = 1;
 flags.confidence_interval = 0;
 flags.want_to_see_stats = 1;
@@ -53,7 +52,7 @@ end
 
 
 % a seed is set just to check the code
-seed = 903525816;
+seed = 10001;
 
 % keeping it low so the code at least runs.
 mcmcoptions.nsimu = 100; 
@@ -170,6 +169,7 @@ inference_script;
 end
 
 
+%%
 
 % at this point if you plot the chain you might just see straight lines
 % with no variation -- that's okay -- as no samples were accepted.
@@ -221,6 +221,7 @@ end
 end
 
 %% plots of the figure 4 -- the data, fit and confidence interval.
+
 load('triplicate_data.mat');
 time_2 = [t2', fliplr(t2')];
 linewidth = 2;

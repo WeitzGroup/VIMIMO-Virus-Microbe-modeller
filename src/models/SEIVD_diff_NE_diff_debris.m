@@ -60,10 +60,11 @@ classdef SEIVD_diff_NE_diff_debris < ode_funs
             viral_adsorb_fun = obj.viral_adsorb_fun; % only use in dV
             lysis_reset_fun = obj.lysis_reset_fun;
             debris_inhib_fun = obj.debris_inhib_fun;
+            debris_inhib_fun_second = obj.debris_inhib_fun_second;
                   
-            Sdeb(1:3) =  S*debris_inhib_fun(pars,D); % debris
-            Sdeb(4:5) =  S*debris_inhib_fun_second(pars,D);
-
+            Sdeb(1:3) =  y(1:3)*debris_inhib_fun(pars,D); % debris
+            Sdeb(4:5) =  y(4:5)*debris_inhib_fun_second(pars,D);
+            Sdeb = Sdeb';
             %Sdeb = S*debris_inhib_fun(pars,D); % debris
             
             dS = host_growth_fun(pars,S,N) - Sdeb.*((pars.M.*pars.phi)*V);

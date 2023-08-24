@@ -4,10 +4,9 @@ This README will show what to check during the code review process.
 The scripts contain examples of how the analyses was done and the generated figures. 
 Some of the scripts may redirect to other used functions which the reviewer might need to take a look at.
 
-<<<<<<< HEAD
+
 * The model classes are implemented here through [SEIV_diff_NE](./../src/models/SEIV_diff_NE.m) and used ordinary differential equations, given by [ode_funs](./../src/models/ode_funs.m)
 * The other functions used in the script (which do not need review) are, [inferece_script](./../inference_script.m), [find_confidence_intervals](./../tools/find_confidence_interval_looped.m) and [get_dirstr](./../src/get_dirstr.m)
-=======
 
 
 ### ROADMAP: One step inference
@@ -37,7 +36,9 @@ The models are.
 * Figure 5 -- collection of all the parameters -- plotted from stored datasets -- using [life_history_compare_new](./../scripts/scripts_for_figures/figure5/life_history_compare_new.m)
 
 ### Supplementary Information
- Next, look at the examples of how the supplementary figures were generated at [supple_post_processing](./supple_post_processing.m)
+
+ Next, look at the examples of how the supplementary figures were generated at supple_post_processing.
+
 The figures are generated using the following scripts.
 * [debris_plot](./../tools/debris_plot.m)
 * [CV_NE](./../tools/CV_NE.m)
@@ -47,4 +48,4 @@ The figures are generated using the following scripts.
 
 
 
->>>>>>> fd5571523afd2e8c5f84b02d0d8e27c09b62648e
+

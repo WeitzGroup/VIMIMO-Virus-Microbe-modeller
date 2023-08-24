@@ -36,6 +36,7 @@ tmp_mcmcpars.beta.lims = [0 1000];
 tmp_mcmcpars.beta.startval = pars_example.beta(find(pars.M));
 tmp_mcmcpars.beta.priormu = pars.beta(find(pars.M));
 %tmp_mcmcpars.beta.priorstd = std(pars.beta(find(pars.M)),'omitnan')*ones(1,length(find(pars.M)));
+
 tmp_mcmcpars.beta.priorstd = std(pars.beta(find(pars.M)),'omitnan')*ones(1,length(find(pars.M)))*.7;
 
 % adsorption rate phi

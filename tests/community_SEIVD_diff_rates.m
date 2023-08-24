@@ -1,6 +1,8 @@
 clear all;
 clc;
 
+%%%%%
+%MUST: Change the model in simulate_ode.m
 
 %just some settings for the inference process:
 
@@ -27,6 +29,7 @@ addpath(genpath('./..'));
 
 % 5 hosts 5 phages and 70ish number of boxes. Will change this later.
 model = SEIVD_diff_NE_diff_debris(5,5,70);
+model.name = 'SEIVD-diffdebris'+string(model.NE);
 model.host_growth = 0;
 model.viral_decay = 0;
 model.viral_adsorb = 0;
@@ -57,7 +60,7 @@ end
 
 
 % a seed is set just to check the code
-seed = 903525816;
+seed = 10001;
 
 % keeping it low so the code at least runs.
 mcmcoptions.nsimu = 5000; 
@@ -147,7 +150,7 @@ load('./../res/inference_results/SEIVD_datasheet','pars2');
 
 pars = pars2;
 pars1 = pars2;
-clear pars2;
+
 
 %after loading I am just adding the Dc2 parameter.
 pars1.Dc2 = pars1.Dc;
@@ -183,9 +186,34 @@ if flags.inference_script == 1
 inference_script;
 end
 
+%% playing and testing part
+pars3 = pars2;
+pars3.Dc = 1e15;
+%pars3.Dc = 1e1;
+%pars3.epsilon = ones(1,10);
+
+[t3,S3,V3,D3] = simulate_ode(model,pars3,t2,pars3.S0,pars3.V0); % initial parameter set
 
 
-% at this point if you plot the chain you might just see straight lines
+plot_timeseries2(model,t3,S3,V3,filestr,2);
+
+figure(10)
+subplot(2,2,1)
+plot(t3,V2-V3);ylabel('V1-V3');xlabel('time');
+subplot(2,2,2)
+plot(t3,S2-S3);ylabel('S1-S3');xlabel('time');
+
+
+%%
+
+%create save directory
+%[dirstr,flags] = get_dirstr('local',model,include_pars,flags);
+dirstr = './../results';
+filestr = sprintf('%s/SEIVD-diff-rates-seed%d',dirstr,seed);
+save(filestr);  
+
+
+% at this point if you plot the  chain you might just see straight lines
 % with no variation -- that's okay -- as no samples were accepted.
 
 
@@ -198,13 +226,15 @@ end
 
 % I have turned this off now, by flags.confidence_interval = 0
 
-% 
-% if flags.confidence_interval == 1
-%     load('./../res/inference_results/SEIVD_datasheet','chain'); %loading an actual chain
-%     transient_id_new = 1;
-%     confidence_interval = 0.95;
-%     [S_min,S_max,V_min,V_max] = find_confidence_interval_looped(chain,transient_id_new,mcmcpars,confidence_limit,model, pars2);
-% end
+
+if flags.confidence_interval == 1
+    load('./../res/inference_results/SEIVD_datasheet','chain'); %loading an actual chain
+    transient_id_new = 1;
+    confidence_interval = 0.95;
+    [S_min,S_max,V_min,V_max] = find_confidence_interval_looped(chain,transient_id_new,mcmcpars,confidence_limit,model, pars2);
+end
+
+
 % 
 % %% actual inference results after the pipeline.
 % 

@@ -3,6 +3,8 @@ clc;
 
 
 %just some settings for the inference process:
+NH = 2;
+NV = 1;
 
 % do not change
 flags.phi_entire_matrix = 0;
@@ -26,7 +28,7 @@ addpath(genpath('./..'));
 %% Settings for running the model
 
 % 5 hosts 5 phages and 70ish number of boxes. Will change this later.
-model = SEIVD_diff_NE_diff_debris(5,5,70);
+model = SEIVD_diff_NE(NH,NV,70);
 model.host_growth = 0;
 model.viral_decay = 0;
 model.viral_adsorb = 0;
@@ -37,17 +39,16 @@ model.debris_inhib = 2;
 
 % which of the variables to include in the inference process
 
-%include_pars = {'r','beta','phi','epsilon','tau'};
+include_pars = {'r','beta','phi','epsilon','tau'};
 
 
 % if we want to include debris
 if (model.debris_inhib == 1 || model.debris_inhib == 2 || model.debris_inhib == 3) 
-    if exists include_pars:
-        
-    
-    
+    if ~exist('include_pars','var')
+        include_pars = {};
+    end
     include_pars{end+1} = 'Dc';
-    include_pars{end+2} = 'Dc2';
+    %include_pars{end+1} = 'Dc2';
 end
 
 %if we want to include lysis reset -- for the paper not included
@@ -58,10 +59,10 @@ end
 
 
 % a seed is set just to check the code
-seed = 903525816;
+seed = 30001;
 
 % keeping it low so the code at least runs.
-mcmcoptions.nsimu = 100; 
+mcmcoptions.nsimu = 1000; 
 
 % keeping the full chain, just for demo purposes of code review.
 transient_id = 1;
@@ -73,22 +74,27 @@ lambda = 0;
 
 %note: the datapath is already added, if it doesn't work (depending on your matlab version), just add the
 %paths.
-load('data/qpcr','data'); % qpcr data
-load('data/parameters_example','pars'); % parameters without nans
-pars1 = pars;
-load('data/parameters'); % true parameter set with nans
 
-% fixing number of compartments: obtained from one-step-inference.
-pars.NE = 10*(pars.M == 1); 
-pars.NE(1,2) = 63;
-pars.NE(2,1) = 75;
-pars.NE(2,2) = 69;
-pars.NE(2,3) = 70;
-pars.NE(3,3) = 68;
-pars.NE(4,4) = 75;
-pars.NE(4,5) = 98;
-pars.NE(5,4) = 87;
-pars.NE(5,5) = 109;
+
+load('./HP1-multihost.mat','data'); % qpcr data
+
+%parameters
+pars1.NH = 2;
+pars1.NV = 1;
+pars1.r = [0.2;0.2];
+pars1.beta = [44.3;54.2];
+pars1.tau = [1.5,1.4];
+pars1.eta = 1./pars.tau;
+pars1.M = [1;
+    1];
+pars1.NE = [75;98];
+pars1.phi = [16e-8;13e-8];
+pars1.a = [1 1; 1 1];
+pars1.K = 200000000;
+pars1.epsilon = [1;1];
+pars1.Dc = 6e6;
+pars1.S0 = [];
+pars1.V0 = data.ydata(1);
 
 pars1.NE = pars.NE; %pars1 was historically created to deal with cases where there was missing values, 
 % do not worry about this for code-review now pars and pars1 are the same
@@ -103,7 +109,7 @@ if (model.debris_inhib == 1 || model.debris_inhib == 2 || model.debris_inhib == 
     pars_units.Dc = "1/ml";
     pars1.Dc2 = pars1.Dc;
     pars_labels.Dc2 = pars_labels.Dc;
-    pars_units.Dc2 = pars_units.Dc2;
+    pars_units.Dc2 = pars_units.Dc;
 end
 
 
@@ -153,9 +159,9 @@ clear pars2;
 %after loading I am just adding the Dc2 parameter.
 pars1.Dc2 = pars1.Dc;
 pars_labels.Dc2 = pars_labels.Dc;
-pars_units.Dc2 = pars_units.Dc2;
+pars_units.Dc2 = pars_units.Dc;
 
-
+pars = pars1;
 
 %% plotting an example fit.
 
@@ -184,6 +190,33 @@ if flags.inference_script == 1
 inference_script;
 end
 
+%% plots, error
+
+loglikefun(median(chain(:,:)),data,pars2,mcmcpars,model,0)
+plot_timeseries2(model,t2,S2,V2); % mcmc result
+
+%% playing and testing part
+pars3 = pars2;
+pars3.Dc = 1e15;
+%pars3.Dc2 = 4e6;
+
+[t3,S3,V3,D3] = simulate_ode(model,pars3,tvec,pars3.S0,pars3.V0); % initial parameter set
+plot_timeseries2(model,t3,S3,V3); % mcmc result
+
+figure(10)
+subplot(2,2,1)
+plot(t2,V2-V3);ylabel('V2-V3');xlabel('time');
+subplot(2,2,2)
+plot(t2,S2-S3);ylabel('S2-S3');xlabel('time');
+
+
+%%
+
+
+%[dirstr,flags] = get_dirstr('local',model,include_pars,flags);
+dirstr = './../results';
+filestr = sprintf('%s/SEIVD-diff-all-seed%d',dirstr,seed);
+save(filestr);  
 
 
 % at this point if you plot the chain you might just see straight lines
@@ -199,41 +232,41 @@ end
 
 % I have turned this off now, by flags.confidence_interval = 0
 
-% 
-% if flags.confidence_interval == 1
-%     load('./../res/inference_results/SEIVD_datasheet','chain'); %loading an actual chain
-%     transient_id_new = 1;
-%     confidence_interval = 0.95;
-%     [S_min,S_max,V_min,V_max] = find_confidence_interval_looped(chain,transient_id_new,mcmcpars,confidence_limit,model, pars2);
-% end
-% 
-% %% actual inference results after the pipeline.
-% 
-% % the inference process takes a long time, so we are just going to load the
-% % actual results after the inference.
-% %loading all the results.
-% 
-% load('./../res/inference_results/SEIVD_datasheet','S1','S2','S_max','S_median','S_min','V1','V2','V_max','V_median','V_min','chain','mcmcparam','mcmcpars','mcmcresults','t2');
-% 
-% %% some initial inference statistics 
-% % this part was hardly shown in the paper
-% % you may get an error if you run this as the folder does not exist.
-% 
-% if flags.want_to_see_stats == 1
-% 
-% % create save directory
-% [dirstr,flags] = get_dirstr('local',model,include_pars,flags);
-% filestr = sprintf('%s/seed%dL%.2g',dirstr,seed,max(log10(lambda),0));
-% 
-% if mcmcoptions.nsimu > 2
-%     figure_mcmc2
-% else
-%     sprintf("You have not run the chain, so can't plot the chain statistics.");
-% end
-% 
-% end
-% 
-% %% plots of the figure 4 -- the data, fit and confidence interval.
+
+if flags.confidence_interval == 1
+    load('./../res/inference_results/SEIVD_datasheet','chain'); %loading an actual chain
+    transient_id_new = 1;
+    confidence_interval = 0.95;
+    [S_min,S_max,V_min,V_max] = find_confidence_interval_looped(chain,transient_id_new,mcmcpars,confidence_limit,model, pars2);
+end
+
+%% actual inference results after the pipeline.
+
+% the inference process takes a long time, so we are just going to load the
+% actual results after the inference.
+%loading all the results.
+
+load('./../res/inference_results/SEIVD_datasheet','S1','S2','S_max','S_median','S_min','V1','V2','V_max','V_median','V_min','chain','mcmcparam','mcmcpars','mcmcresults','t2');
+
+%% some initial inference statistics 
+% this part was hardly shown in the paper
+% you may get an error if you run this as the folder does not exist.
+
+if flags.want_to_see_stats == 1
+
+% create save directory
+[dirstr,flags] = get_dirstr('local',model,include_pars,flags);
+filestr = sprintf('%s/seed%dL%.2g',dirstr,seed,max(log10(lambda),0));
+
+if mcmcoptions.nsimu > 2
+    figure_mcmc2
+else
+    sprintf("You have not run the chain, so can't plot the chain statistics.");
+end
+
+end
+
+%% plots of the figure 4 -- the data, fit and confidence interval.
 % load('triplicate_data.mat');
 % time_2 = [t2', fliplr(t2')];
 % linewidth = 2;
@@ -419,6 +452,4 @@ end
 % set(gca,'fontname','times')  % Set it to times
 % xlabel("Time (hours)");
 % 
-% 
-% 
-% 
+ 

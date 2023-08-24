@@ -4,10 +4,10 @@ clear all;
 %add all the paths
 addpath(genpath('./..'))
 
-%here is figure 1
-cd('./figure1/')
-figure1;
-cd ..
+% %here is figure 1
+% cd('./figure1/')
+% figure1;
+% cd ..
 
 %Here is Figure 3
 cd('./figure3');

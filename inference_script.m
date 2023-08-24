@@ -14,8 +14,18 @@ clear mcmcmethods;
 
 
 %% Running the mcmc protocol locally
+if isfield(flags,'broader_priors') == 0
+    mcmcpars = mcmcpars_setup(pars,pars1,include_pars,flags,model);
+else
+    if flags.broader_priors == 0
+        mcmcpars = mcmcpars_setup(pars,pars1,include_pars,flags,model);
+    elseif flags.broader_priors == 1
+        mcmcpars = mcmcpars_setup_broader(pars,pars1,include_pars,flags,model);
+    end
+end
 
-mcmcpars = mcmcpars_setup(pars,pars1,include_pars,flags,model);
+
+
 mcmcparam = mcmcpars2param(mcmcpars);
 mcmcmodel.ssfun = @(theta,data) ssfun(theta,data,pars1,mcmcpars,model,lambda); 
 [mcmcresults, chain, s2chain]= mcmcrun(mcmcmodel,data,mcmcparam,mcmcoptions);

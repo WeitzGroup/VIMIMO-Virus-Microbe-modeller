@@ -12,7 +12,12 @@ lysis_reset = model.lysis_reset;
 debris_inhib = model.debris_inhib;
 NE  = round(max(max(pars.NE)));
 
-model = SEIV_diff_NE(model.NH,model.NV,NE);
+if model.name == 'SEIV'+string(model.NE)
+    model = SEIV_diff_NE(model.NH,model.NV,NE);
+else
+    model = SEIVD_diff_NE_diff_debris(model.NH,model.NV,NE);
+end
+
 model.host_growth = host_growth;
 model.viral_decay = viral_decay;
 model.viral_adsorb = viral_adsorb;

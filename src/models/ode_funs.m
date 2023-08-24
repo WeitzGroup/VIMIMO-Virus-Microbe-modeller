@@ -85,6 +85,22 @@ classdef ode_funs
 
             end
         end
+
+
+        function handle = debris_inhib_fun_second(obj)
+            if obj.debris_inhib==0
+                handle = @(pars,D) 1;
+            elseif obj.debris_inhib == 1
+                handle = @(pars,D) 1/(1+D/pars.Dc2)^2;
+            elseif obj.debris_inhib == 2
+                handle = @(pars,D) 1/(1+(D/pars.Dc2)^2); %exponent corrected
+            elseif obj.debris_inhib == 3
+                handle = @(pars,D) 1/(1+(pars.Dc2/D)^2); %exponent corrected and reciprocal
+
+            end
+        
+        end
+
         
     end
     

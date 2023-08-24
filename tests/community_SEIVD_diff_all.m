@@ -57,7 +57,7 @@ end
 
 
 % a seed is set just to check the code
-seed = 903525816;
+seed = 20001;
 
 % keeping it low so the code at least runs.
 mcmcoptions.nsimu = 20000; 
@@ -183,6 +183,33 @@ if flags.inference_script == 1
 inference_script;
 end
 
+%% plots, error
+
+loglikefun(median(chain(:,:)),data,pars2,mcmcpars,model,0)
+plot_timeseries2(model,t2,S2,V2); % mcmc result
+
+%% playing and testing part
+pars3 = pars2;
+pars3.Dc = 1e15;
+%pars3.Dc2 = 4e6;
+
+[t3,S3,V3,D3] = simulate_ode(model,pars3,tvec,pars3.S0,pars3.V0); % initial parameter set
+plot_timeseries2(model,t3,S3,V3); % mcmc result
+
+figure(10)
+subplot(2,2,1)
+plot(t2,V2-V3);ylabel('V2-V3');xlabel('time');
+subplot(2,2,2)
+plot(t2,S2-S3);ylabel('S2-S3');xlabel('time');
+
+
+%%
+
+
+%[dirstr,flags] = get_dirstr('local',model,include_pars,flags);
+dirstr = './../results';
+filestr = sprintf('%s/SEIVD-diff-all-seed%d',dirstr,seed);
+save(filestr);  
 
 
 % at this point if you plot the chain you might just see straight lines
@@ -198,41 +225,41 @@ end
 
 % I have turned this off now, by flags.confidence_interval = 0
 
-% 
-% if flags.confidence_interval == 1
-%     load('./../res/inference_results/SEIVD_datasheet','chain'); %loading an actual chain
-%     transient_id_new = 1;
-%     confidence_interval = 0.95;
-%     [S_min,S_max,V_min,V_max] = find_confidence_interval_looped(chain,transient_id_new,mcmcpars,confidence_limit,model, pars2);
-% end
-% 
-% %% actual inference results after the pipeline.
-% 
-% % the inference process takes a long time, so we are just going to load the
-% % actual results after the inference.
-% %loading all the results.
-% 
-% load('./../res/inference_results/SEIVD_datasheet','S1','S2','S_max','S_median','S_min','V1','V2','V_max','V_median','V_min','chain','mcmcparam','mcmcpars','mcmcresults','t2');
-% 
-% %% some initial inference statistics 
-% % this part was hardly shown in the paper
-% % you may get an error if you run this as the folder does not exist.
-% 
-% if flags.want_to_see_stats == 1
-% 
-% % create save directory
-% [dirstr,flags] = get_dirstr('local',model,include_pars,flags);
-% filestr = sprintf('%s/seed%dL%.2g',dirstr,seed,max(log10(lambda),0));
-% 
-% if mcmcoptions.nsimu > 2
-%     figure_mcmc2
-% else
-%     sprintf("You have not run the chain, so can't plot the chain statistics.");
-% end
-% 
-% end
-% 
-% %% plots of the figure 4 -- the data, fit and confidence interval.
+
+if flags.confidence_interval == 1
+    load('./../res/inference_results/SEIVD_datasheet','chain'); %loading an actual chain
+    transient_id_new = 1;
+    confidence_interval = 0.95;
+    [S_min,S_max,V_min,V_max] = find_confidence_interval_looped(chain,transient_id_new,mcmcpars,confidence_limit,model, pars2);
+end
+
+%% actual inference results after the pipeline.
+
+% the inference process takes a long time, so we are just going to load the
+% actual results after the inference.
+%loading all the results.
+
+load('./../res/inference_results/SEIVD_datasheet','S1','S2','S_max','S_median','S_min','V1','V2','V_max','V_median','V_min','chain','mcmcparam','mcmcpars','mcmcresults','t2');
+
+%% some initial inference statistics 
+% this part was hardly shown in the paper
+% you may get an error if you run this as the folder does not exist.
+
+if flags.want_to_see_stats == 1
+
+% create save directory
+[dirstr,flags] = get_dirstr('local',model,include_pars,flags);
+filestr = sprintf('%s/seed%dL%.2g',dirstr,seed,max(log10(lambda),0));
+
+if mcmcoptions.nsimu > 2
+    figure_mcmc2
+else
+    sprintf("You have not run the chain, so can't plot the chain statistics.");
+end
+
+end
+
+%% plots of the figure 4 -- the data, fit and confidence interval.
 % load('triplicate_data.mat');
 % time_2 = [t2', fliplr(t2')];
 % linewidth = 2;
@@ -418,6 +445,4 @@ end
 % set(gca,'fontname','times')  % Set it to times
 % xlabel("Time (hours)");
 % 
-% 
-% 
-% 
+ 
