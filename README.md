@@ -1,5 +1,3 @@
-![Build Status](https://circleci.com/gh/<RaunakDey>/<VIMIMO-Virus-Microbe-modeller>.svg?style=shield&circle-token=:circle-token)
-
 <img width="1417" alt="logo" src="https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/assets/39820997/1987e158-cfcd-482d-ab3b-f74bafa8b394">
 
 
