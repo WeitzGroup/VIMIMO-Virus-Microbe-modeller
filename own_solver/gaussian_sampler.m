@@ -17,83 +17,148 @@ initial_error = error_from_pars(pars2,data,model);
 tvec = 0:0.05:15.75; % for better viz
 
 %initialization of gaussian priors.
-r_sd = 0.02; %for 5 parameters
-beta_sd = 50; % for 9 parameters
+r_sd = 0.01; %for 5 parameters
+beta_sd = 20; % for 9 parameters
 phi_sd = 0*1e-8; %for 9 parameters;
 epsilon_sd = 0; %will not sample this.
 tau_sd = 0.6; % will increase later -- after truncating.
 
+transparency = 0.1;
+color = [70/255,130/255,180/255];
+num_samples = 100;
+
+%% figures
+
 figure(1)
 subplot(1,5,1)
-plot(data.xdata,data.ydata(:,6),'ko','MarkerEdgeColor','k','MarkerFaceColor','k');hold on;
+plot(data.xdata,data.ydata(:,6),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
 subplot(1,5,2)
-plot(data.xdata,data.ydata(:,7),'ko','MarkerEdgeColor','k','MarkerFaceColor','k');hold on;
+plot(data.xdata,data.ydata(:,7),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
 subplot(1,5,3)
-plot(data.xdata,data.ydata(:,8),'ko','MarkerEdgeColor','k','MarkerFaceColor','k');hold on;
+plot(data.xdata,data.ydata(:,8),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
 subplot(1,5,4)
-plot(data.xdata,data.ydata(:,9),'ko','MarkerEdgeColor','k','MarkerFaceColor','k');hold on;
+plot(data.xdata,data.ydata(:,9),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
 subplot(1,5,5)
-plot(data.xdata,data.ydata(:,10),'ko','MarkerEdgeColor','k','MarkerFaceColor','k');hold on;
+plot(data.xdata,data.ydata(:,10),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
 
 figure(2)
 subplot(1,5,1)
-plot(data.xdata,data.ydata(:,1),'ko','MarkerEdgeColor','k','MarkerFaceColor','k');hold on;
+plot(data.xdata,data.ydata(:,1),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
 subplot(1,5,2)
-plot(data.xdata,data.ydata(:,2),'ko','MarkerEdgeColor','k','MarkerFaceColor','k');hold on;
+plot(data.xdata,data.ydata(:,2),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
 subplot(1,5,3)
-plot(data.xdata,data.ydata(:,3),'ko','MarkerEdgeColor','k','MarkerFaceColor','k');hold on;
+plot(data.xdata,data.ydata(:,3),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
 subplot(1,5,4)
-plot(data.xdata,data.ydata(:,4),'ko','MarkerEdgeColor','k','MarkerFaceColor','k');hold on;
+plot(data.xdata,data.ydata(:,4),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
 subplot(1,5,5)
-plot(data.xdata,data.ydata(:,5),'ko','MarkerEdgeColor','k','MarkerFaceColor','k');hold on;
+plot(data.xdata,data.ydata(:,5),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
 
 
 
 %samples
-for i = 1:100
+for i = 1:num_samples
     i
+    
     pars_samples = pars2; %initialization
-    pars_samples.r = pars2.r + randn(5,1)*r_sd;
-    pars_samples.beta = pars2.beta + randn(5,5)*beta_sd*pars.M;
-    pars_samples.phi = pars2.phi + randn(5,5)*phi_sd*pars.M;
-    pars_samples.epsilon = pars2.epsilon + randn(1,10)*epsilon_sd;
+    
+    pars_samples.r = pars2.r + randn(5,1).*r_sd;
+    theta(i,1:5) = (pars_samples.r)';
+
+    pars_samples.beta = pars2.beta + randn(5,5).*beta_sd.*pars.M;
+    theta(i,6:14) = (pars_samples.beta(pars_samples.beta~=0))';
+
+    pars_samples.phi = pars2.phi + randn(5,5).*phi_sd.*pars.M;
+    theta(i,15:23) = (pars_samples.phi(pars_samples.phi>0))';
+
+    pars_samples.epsilon = pars2.epsilon + randn(1,10).*epsilon_sd;
+    theta(i,24:33) = (pars_samples.epsilon)';
+
+    pars_samples.tau = pars2.tau + randn(5,5).*tau_sd.*pars.M;
+    theta(i,34:42) = (pars_samples.tau(pars_samples.tau~=0))';
+
     [t3,S3,V3,~] = simulate_ode(model,pars_samples,tvec,pars2.S0,pars2.V0);
     figure(1)
     subplot(1,5,1)
-    plot(t3,V3(:,1),'b'); hold on;
+    patchline(t3,V3(:,1),'edgecolor',[0 0 0],'linewidth',1,'edgealpha',transparency);hold on;
+  
     subplot(1,5,2)
-    plot(t3,V3(:,2),'b'); hold on;
+    patchline(t3,V3(:,2),'edgecolor',[0 0 0],'linewidth',1,'edgealpha',transparency);hold on;
+
     subplot(1,5,3)
-    plot(t3,V3(:,3),'b'); hold on;
+    patchline(t3,V3(:,3),'edgecolor',[0 0 0],'linewidth',1,'edgealpha',transparency);hold on;
+
     subplot(1,5,4)
-    plot(t3,V3(:,4),'b'); hold on;
+    patchline(t3,V3(:,4),'edgecolor',[0 0 0],'linewidth',1,'edgealpha',transparency);hold on;
+
     subplot(1,5,5)
-    plot(t3,V3(:,5),'b'); hold on;
+    patchline(t3,V3(:,5),'edgecolor',[0 0 0],'linewidth',1,'edgealpha',transparency);hold on;
 
     figure(2)
     subplot(1,5,1)
-    plot(t3,S3(:,1),'b'); hold on;
+    patchline(t3,S3(:,1),'edgecolor',[0 0 0],'linewidth',1,'edgealpha',transparency);hold on;
+
     subplot(1,5,2)
-    plot(t3,S3(:,2),'b'); hold on;
+    patchline(t3,S3(:,2),'edgecolor',[0 0 0],'linewidth',1,'edgealpha',transparency);hold on;
+    
     subplot(1,5,3)
-    plot(t3,S3(:,3),'b'); hold on;
+    patchline(t3,S3(:,3),'edgecolor',[0 0 0],'linewidth',1,'edgealpha',transparency);hold on;
+    
     subplot(1,5,4)
-    plot(t3,S3(:,4),'b'); hold on;
+    patchline(t3,S3(:,4),'edgecolor',[0 0 0],'linewidth',1,'edgealpha',transparency);hold on;
+    
     subplot(1,5,5)
-    plot(t3,S3(:,5),'b'); hold on;
-   
+    patchline(t3,S3(:,5),'edgecolor',[0 0 0],'linewidth',1,'edgealpha',transparency);hold on;
+
 end
 
-%% store the artificial posterior distribution
+
+
+figure(1)
+subplot(1,5,1)
+plot(data.xdata,data.ydata(:,6),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
+set(gca, 'YScale', 'log');
+subplot(1,5,2)
+plot(data.xdata,data.ydata(:,7),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
+set(gca, 'YScale', 'log');
+subplot(1,5,3)
+plot(data.xdata,data.ydata(:,8),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
+set(gca, 'YScale', 'log');
+subplot(1,5,4)
+plot(data.xdata,data.ydata(:,9),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
+set(gca, 'YScale', 'log');
+subplot(1,5,5)
+plot(data.xdata,data.ydata(:,10),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
+set(gca, 'YScale', 'log');
+saveas(gcf,'virus-v3.png')
+
+figure(2)
+subplot(1,5,1)
+plot(data.xdata,data.ydata(:,1),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
+set(gca, 'YScale', 'log');
+subplot(1,5,2)
+plot(data.xdata,data.ydata(:,2),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
+set(gca, 'YScale', 'log');
+subplot(1,5,3)
+plot(data.xdata,data.ydata(:,3),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
+set(gca, 'YScale', 'log');
+subplot(1,5,4)
+plot(data.xdata,data.ydata(:,4),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
+set(gca, 'YScale', 'log');
+subplot(1,5,5)
+plot(data.xdata,data.ydata(:,5),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
+set(gca, 'YScale', 'log');
+
+saveas(gcf,'host-v3.png')
+
 
 
