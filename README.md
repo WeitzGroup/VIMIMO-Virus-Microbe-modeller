@@ -1,4 +1,4 @@
-<img width="1417" alt="logo" src="https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/assets/39820997/1987e158-cfcd-482d-ab3b-f74bafa8b394">
+<img width="1417" alt="logo" src="https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/assets/39820997/2a441485-ccb7-445d-917c-bd76aa658daf">
 
 
 # Community model for virus microbe infection networks
