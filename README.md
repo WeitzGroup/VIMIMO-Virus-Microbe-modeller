@@ -15,8 +15,7 @@
  * In a multimodel inference scheme you can compare between models using a model validation pipeline
 
    Here is an example of a Virus Microbe Network model.
-<div style="text-align:center">
-<img width="479" alt="image" src="https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/assets/39820997/94fed00a-5d3a-411f-a711-e14d44ce5fb6"> 
+<div style="text-align:center"><img width="707" alt="image" src="https://github.com/RaunakDey/VIMIMO-Virus-Microbe-modeller/assets/39820997/45cec5ba-8208-4133-b762-674361867323">
 </div>
 
  ## Tutorials
