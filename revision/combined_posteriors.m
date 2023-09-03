@@ -3,11 +3,17 @@ clear all;
 
 confidence_run = false;
 
+% colors
+blue = [0 0.4470 0.7410];
+yellow = [ 0.9290 0.6940 0.1250];
+purple = [0.4940 0.1840 0.5560];
+green = [0.4660 0.6740 0.1880];
+
 addpath(genpath('./..'));
 
-seed = 20028;
+seed = 20031;
 load('./../results/SEIVD-diff-all-seed'+string(seed)+'.mat')
-chain_stored = chain;
+chain_stored = chain(1:10000,:);
 
 seed2 = 20029;
 load('./../results/SEIVD-diff-all-seed'+string(seed2)+'.mat')
@@ -24,18 +30,18 @@ chain_stored4 = chain;
 
 %% add the beta part
 %14,17,18
+% 31 29 30 27
 
-
-load('./../results/SEIVD-onlybeta-seed20028.mat','chain')
+load('./../results/SEIVD-onlybeta-seed20032.mat','chain')
 chain_stored(:,6:14) = chain;
 
-load('./../results/SEIVD-onlybeta-seed20029.mat','chain')
+load('./../results/SEIVD-onlybeta-seed20030.mat','chain')
 chain_stored2(:,6:14) = chain;
 
-load('./../results/SEIVD-onlybeta-seed20030.mat','chain')
+load('./../results/SEIVD-onlybeta-seed20031.mat','chain')
 chain_stored3(:,6:14) = chain;
 
-load('./../results/SEIVD-onlybeta-seed20027.mat','chain')
+load('./../results/SEIVD-onlybeta-seed20035.mat','chain')
 chain_stored4(:,6:14) = chain;
 
 
@@ -43,17 +49,30 @@ chain_stored4(:,6:14) = chain;
 % do same thing as tau
 %31,32,33
 
-load('./../results/SEIVD-beta-tau-seed20038.mat','chain');
-chain_stored(:,34:42) = chain(:,10:18);
+% load('./../results/SEIVD-beta-tau-seed20043.mat','chain');
+% chain_stored(:,34:42) = chain(:,10:18);
+% 
+% load('./../results/SEIVD-beta-tau-seed20047.mat','chain');
+% chain_stored2(:,34:42) = chain(:,10:18);
+% 
+% load('./../results/SEIVD-beta-tau-seed20045.mat','chain');
+% chain_stored3(:,34:42) = chain(:,10:18);
+% 
+% load('./../results/SEIVD-beta-tau-seed20046.mat','chain');
+% chain_stored4(:,34:42) = chain(:,10:18);
 
-load('./../results/SEIVD-beta-tau-seed20039.mat','chain');
-chain_stored2(:,34:42) = chain(:,10:18);
 
-load('./../results/SEIVD-beta-tau-seed20036.mat','chain');
-chain_stored3(:,34:42) = chain(:,10:18);
+load('./../results/SEIVD-onlytau-seed20039.mat','chain');
+chain_stored(:,34:42) = chain;
 
-load('./../results/SEIVD-beta-tau-seed20037.mat','chain');
-chain_stored4(:,34:42) = chain(:,10:18);
+load('./../results/SEIVD-onlytau-seed20040.mat','chain');
+chain_stored2(:,34:42) = chain;
+
+load('./../results/SEIVD-onlytau-seed20041.mat','chain');
+chain_stored3(:,34:42) = chain;
+
+load('./../results/SEIVD-onlytau-seed20042.mat','chain');
+chain_stored4(:,34:42) = chain;
 
 
 %% priors
@@ -70,18 +89,28 @@ priors.tau.std = 10*ones(1,9);
 priors.phi.mean = log([5.3 1.2 14 10 4.97 16 6.5 13 8]*1e-8)/log(10);
 priors.phi.std = 4.32*ones(1,9);
 
-
+title_names = ['\phi18:2--CBA4','\phi18:3--CBA18','\phi18:2--CBA18','\phi38:1--CBA18','\phi38:1--CBA38','PSA HP1--PSA H100','PSA HS6--PSA H100','PSA HP1--PSA 13-15','PSA HS6--PSA 13-15'];
 %% plots
 
 figure(1)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored(5000:10000,i+5));hold on;
+plot(chain_stored(5000:10000,i+5),Color=blue);hold on;
 xlim([0 5000]);
+if i == 9
+    xlabel('trace positions')
+end
+%title(title_names(i))
+
+ylabel('\beta')
+
+
 
 subplot(9,2,2*i)
-histogram(chain_stored(5001:10000,i+5),'DisplayStyle','stairs','NumBins',25,'Normalization','pdf','LineWidth',1); hold on;
-plot(gaussian(0:1000,priors.beta.mean(i),priors.beta.std(i)),'LineWidth',2,'Color','k')
+histogram(chain_stored(5001:10000,i+5),'DisplayStyle','stairs','NumBins',25,'Normalization','pdf','LineWidth',1,'EdgeColor',blue); hold on;
+plot(gaussian(0:1000,priors.beta.mean(i),priors.beta.std(i)),'LineWidth',2,'Color','k');
+%xline(priors.beta.mean(i),Color='r',LineWidth=2);
+%title(title_names(i))
 
 xlim([0 1000])
 end
@@ -91,13 +120,14 @@ xlabel('\beta ')
 figure(2)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored(5000:10000,i+33)); hold on;
+plot(chain_stored(5000:10000,i+33),Color=blue); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored(5001:10000,i+33),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored(5001:10000,i+33),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',blue);
 hold on;
 plot(-1:20,gaussian(-1:20,priors.tau.mean(i),priors.tau.std(i)),'LineWidth',2,'Color','k')
+xline(priors.tau.mean(i),Color='r',LineWidth=2);
 
 xlim([0 20])
 
@@ -107,13 +137,14 @@ xlabel('\tau (hrs)')
 figure(3)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored(5000:10000,i+14)); hold on;
+plot(chain_stored(5000:10000,i+14),Color=blue); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored(5001:10000,i+14),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored(5001:10000,i+14),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',blue);
 hold on;
-plot(-15:0.1:-5,gaussian(-15:0.1:-5,priors.phi.mean(i),priors.phi.std(i)),'LineWidth',2,'Color','k')
+plot(-15:0.1:-5,gaussian(-15:0.1:-5,priors.phi.mean(i),priors.phi.std(i)),'LineWidth',2,'Color','k');
+xline(priors.phi.mean(i),Color='r',LineWidth=2);
 set(gca, 'YScale', 'log');
 xlim([-15 -5]);
 
@@ -125,13 +156,15 @@ xlabel('log(\phi) ml/hrs')
 figure(4)
 for i = 1:5
 subplot(5,2,2*i-1)
-plot(chain_stored(5000:10000,i)); hold on;
+plot(chain_stored(5000:10000,i),Color=blue); hold on;
 xlim([0 5000]);
 
 subplot(5,2,2*i)
-histogram(chain_stored(5001:10000,i),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored(5001:10000,i),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',blue);
 hold on;
+
 plot(0:0.01:0.8,gaussian(0:0.01:0.8,priors.r.mean(i),priors.r.std(i)),'LineWidth',2,'Color','k')
+xline(priors.r.mean(i),Color='r',LineWidth=2);
 xlim([0 0.8]);
 
 end
@@ -143,11 +176,11 @@ xlabel('r (hrs^{-1})')
 figure(1)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored2(5000:10000,i+5)); hold on;
+plot(chain_stored2(5000:10000,i+5),Color=yellow); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored2(5001:10000,i+5),'DisplayStyle','stairs','NumBins',25,'Normalization','pdf','LineWidth',1); hold on;
+histogram(chain_stored2(5001:10000,i+5),'DisplayStyle','stairs','NumBins',25,'Normalization','pdf','LineWidth',1,'EdgeColor',yellow); hold on;
 
 xlim([0 1000])
 end
@@ -157,11 +190,11 @@ xlabel('\beta ')
 figure(2)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored2(5000:10000,i+33)); hold on;
+plot(chain_stored2(5000:10000,i+33),Color=yellow); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored2(5001:10000,i+33),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored2(5001:10000,i+33),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',yellow);
 
 xlim([0 20])
 
@@ -171,11 +204,11 @@ xlabel('\tau (hrs)')
 figure(3)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored2(5000:10000,i+14)); hold on;
+plot(chain_stored2(5000:10000,i+14),Color=yellow); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored2(5001:10000,i+14),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored2(5001:10000,i+14),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',yellow);
 hold on;
 set(gca, 'YScale', 'log');
 xlim([-15 -5]);
@@ -188,11 +221,11 @@ xlabel('log(\phi) ml/hrs')
 figure(4)
 for i = 1:5
 subplot(5,2,2*i-1)
-plot(chain_stored2(5000:10000,i)); hold on;
+plot(chain_stored2(5000:10000,i),Color=yellow); hold on;
 xlim([0 5000]);
 
 subplot(5,2,2*i)
-histogram(chain_stored2(5001:10000,i),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored2(5001:10000,i),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',yellow);
 hold on;
 xlim([0 0.8]);
 
@@ -205,11 +238,11 @@ xlabel('r (hrs^{-1})')
 figure(1)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored3(5000:10000,i+5)); hold on;
+plot(chain_stored3(5000:10000,i+5),Color=purple); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored3(5001:10000,i+5),'DisplayStyle','stairs','NumBins',25,'Normalization','pdf','LineWidth',1); hold on;
+histogram(chain_stored3(5001:10000,i+5),'DisplayStyle','stairs','NumBins',25,'Normalization','pdf','LineWidth',1,'EdgeColor',purple); hold on;
 
 xlim([0 1000])
 end
@@ -219,11 +252,11 @@ xlabel('\beta ')
 figure(2)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored3(5000:10000,i+33)); hold on;
+plot(chain_stored3(5000:10000,i+33),Color=purple); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored3(5001:10000,i+33),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored3(5001:10000,i+33),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',purple);
 
 xlim([0 20])
 
@@ -233,11 +266,11 @@ xlabel('\tau (hrs)')
 figure(3)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored3(5000:10000,i+14)); hold on;
+plot(chain_stored3(5000:10000,i+14),Color=purple); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored3(5001:10000,i+14),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored3(5001:10000,i+14),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',purple);
 hold on;
 set(gca, 'YScale', 'log');
 xlim([-10 -7]);
@@ -250,11 +283,11 @@ xlabel('log(\phi) ml/hrs')
 figure(4)
 for i = 1:5
 subplot(5,2,2*i-1)
-plot(chain_stored3(5000:10000,i)); hold on;
+plot(chain_stored3(5000:10000,i),Color=purple); hold on;
 xlim([0 5000]);
 
 subplot(5,2,2*i)
-histogram(chain_stored3(5001:10000,i),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored3(5001:10000,i),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',purple);
 hold on;
 xlim([0 0.8]);
 
@@ -266,11 +299,11 @@ xlabel('r (hrs^{-1})')
 figure(1)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored4(5000:10000,i+5)); hold on;
+plot(chain_stored4(5000:10000,i+5),Color=green); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored4(5001:10000,i+5),'DisplayStyle','stairs','NumBins',25,'Normalization','pdf','LineWidth',1); hold on;
+histogram(chain_stored4(5001:10000,i+5),'DisplayStyle','stairs','NumBins',25,'Normalization','pdf','LineWidth',1,'EdgeColor',green); hold on;
 
 xlim([0 1000])
 end
@@ -280,11 +313,11 @@ xlabel('\beta ')
 figure(2)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored4(5000:10000,i+33)); hold on;
+plot(chain_stored4(5000:10000,i+33),Color=green); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored4(5001:10000,i+33),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored4(5001:10000,i+33),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',green);
 
 xlim([0 20])
 
@@ -294,11 +327,11 @@ xlabel('\tau (hrs)')
 figure(3)
 for i = 1:9
 subplot(9,2,2*i-1)
-plot(chain_stored4(5000:10000,i+14)); hold on;
+plot(chain_stored4(5000:10000,i+14),Color=green); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored4(5001:10000,i+14),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored4(5001:10000,i+14),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',green);
 hold on;
 set(gca, 'YScale', 'log');
 xlim([-10 -7]);
@@ -311,11 +344,11 @@ xlabel('log(\phi) ml/hrs')
 figure(4)
 for i = 1:5
 subplot(5,2,2*i-1)
-plot(chain_stored4(5000:10000,i)); hold on;
+plot(chain_stored4(5000:10000,i),Color=green); hold on;
 xlim([0 5000]);
 
 subplot(5,2,2*i)
-histogram(chain_stored4(5001:10000,i),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1);
+histogram(chain_stored4(5001:10000,i),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',green);
 hold on;
 xlim([0 0.8]);
 
