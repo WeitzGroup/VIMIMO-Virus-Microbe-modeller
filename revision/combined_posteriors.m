@@ -32,6 +32,8 @@ chain_stored4 = chain;
 %14,17,18
 % 31 29 30 27
 
+% 32, 30, 31, 35
+
 load('./../results/SEIVD-onlybeta-seed20032.mat','chain')
 chain_stored(:,6:14) = chain;
 
@@ -41,7 +43,7 @@ chain_stored2(:,6:14) = chain;
 load('./../results/SEIVD-onlybeta-seed20031.mat','chain')
 chain_stored3(:,6:14) = chain;
 
-load('./../results/SEIVD-onlybeta-seed20035.mat','chain')
+load('./../results/SEIVD-onlybeta-seed20030.mat','chain')
 chain_stored4(:,6:14) = chain;
 
 
@@ -73,6 +75,19 @@ chain_stored3(:,34:42) = chain;
 
 load('./../results/SEIVD-onlytau-seed20042.mat','chain');
 chain_stored4(:,34:42) = chain;
+
+%% add the phi part
+load('./../results/SEIVD-phi-seed20031.mat','chain');
+chain_stored(:,15:23) = chain;
+
+load('./../results/SEIVD-phi-seed20032.mat','chain');
+chain_stored2(:,15:23) = chain;
+
+load('./../results/SEIVD-phi-seed20033.mat','chain');
+chain_stored3(:,15:23) = chain;
+
+load('./../results/SEIVD-phi-seed20034.mat','chain');
+chain_stored4(:,15:23) = chain;
 
 
 %% priors
@@ -109,7 +124,7 @@ ylabel('\beta')
 subplot(9,2,2*i)
 histogram(chain_stored(5001:10000,i+5),'DisplayStyle','stairs','NumBins',25,'Normalization','pdf','LineWidth',1,'EdgeColor',blue); hold on;
 plot(gaussian(0:1000,priors.beta.mean(i),priors.beta.std(i)),'LineWidth',2,'Color','k');
-%xline(priors.beta.mean(i),Color='r',LineWidth=2);
+xline(priors.beta.mean(i),Color='r',LineWidth=2);
 %title(title_names(i))
 
 xlim([0 1000])
@@ -368,7 +383,7 @@ tvec = 0:0.05:15.75; % for better viz
 [S_min,S_max,V_min,V_max,S_median,V_median] = find_confidence_interval_looped(chain_stored4,5000,mcmcpars,0.95,model, pars2);
 
 
-load('./../../../data/triplicate_data.mat');
+load('./../data/triplicate_data.mat');
 
  time_2 = [t2', fliplr(t2')];
 linewidth = 2;
