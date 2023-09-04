@@ -12,7 +12,7 @@ tvec = 0:0.05:15.75; % for better viz
 
 
 for i = 1:length_chain_to_be_used
-
+    i
     %pars_from_dist = @(chain_to_be_used) chain_to_be_used;
     pars_used = update_pars(pars_without_nan,chain_to_be_used(i,:),mcmcpars);
     [~,S_recon(:,:,i),V_recon(:,:,i),D_recon(:,:,i)] = simulate_ode(model,pars_used,tvec,pars_used.S0,pars_used.V0); % mcmc parameter set
