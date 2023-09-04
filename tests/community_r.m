@@ -134,23 +134,36 @@ seed = seed - 1 ;
 load('./../results/SEIVD-diff-all-seed'+string(seed)+'.mat','pars2','seed','pars_units','pars_labels');
 filename = [];
 
-parfor i = 1:5
+
+% parfor i = 1:5
+%     pars = pars2;
+%     pars1 = pars2;
+%     clear pars2;
+%     if flags.inference_script == 1
+%         inference_script;
+%     end
+%     %seed = seed+1;
+% 
+%     filename(i) = sprintf('%s/SEIVD-r-seed%d-%d',dirstr,seed,i);
+%       
+% end
+% 
+% for i =1:5
+%     save(filename(i));
+% end
+
+for i = 1:5
     pars = pars2;
     pars1 = pars2;
     clear pars2;
     if flags.inference_script == 1
         inference_script;
     end
-    %seed = seed+1;
+    seed = seed+1;
 
-    filename(i) = sprintf('%s/SEIVD-r-seed%d-%d',dirstr,seed,i);
-      
+    filestr = sprintf('%s/SEIVD-r-seed%d',dirstr,seed);
+    save(filestr);  
 end
-
-for i =1:5
-    save(filename(i));
-end
-
 
 
 
