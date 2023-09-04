@@ -59,7 +59,7 @@ end
 
 
 % a seed is set just to check the code
-seed = 20010;
+seed = 20011;
 
 % keeping it low so the code at least runs.
 mcmcoptions.nsimu = 10000; 

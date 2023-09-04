@@ -19,13 +19,13 @@ tvec = 0:0.05:15.75; % for better viz
 %initialization of gaussian priors.
 r_sd = 0.01; %for 5 parameters
 beta_sd = 20; % for 9 parameters
-phi_sd = 0*1e-8; %for 9 parameters;
+phi_sd = 1*1e-10; %for 9 parameters;
 epsilon_sd = 0; %will not sample this.
 tau_sd = 0.6; % will increase later -- after truncating.
 
 transparency = 0.1;
 color = [70/255,130/255,180/255];
-num_samples = 100;
+num_samples = 1000;
 
 %% figures
 
@@ -139,7 +139,7 @@ set(gca, 'YScale', 'log');
 subplot(1,5,5)
 plot(data.xdata,data.ydata(:,10),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
-saveas(gcf,'virus-v3.png')
+saveas(gcf,'virus-v4.png')
 
 figure(2)
 subplot(1,5,1)
@@ -158,7 +158,7 @@ subplot(1,5,5)
 plot(data.xdata,data.ydata(:,5),'o','MarkerEdgeColor','k','MarkerFaceColor',color);hold on;
 set(gca, 'YScale', 'log');
 
-saveas(gcf,'host-v3.png')
+saveas(gcf,'host-v4.png')
 
 
 
