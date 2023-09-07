@@ -43,7 +43,8 @@ tmp_mcmcpars.beta.priorstd = std(pars.beta(find(pars.M)),'omitnan')*ones(1,lengt
 if ~exist('flags','var') || flags.phi_entire_matrix==0  % default = only nonzero values included
     tmp_mcmcpars.phi.log = 1;
     tmp_mcmcpars.phi.subid = find(pars.M);
-    tmp_mcmcpars.phi.lims = [1e-10 1e-5];
+    % previously was upto 1e-10
+    tmp_mcmcpars.phi.lims = [1e-12 1e-5];
     tmp_mcmcpars.phi.startval = pars_example.phi(find(pars.M));
     tmp_mcmcpars.phi.priormu = pars.phi(find(pars.M));
     %tmp_mcmcpars.phi.priorstd = 10.^std(log10(pars.phi(find(pars.M))),'omitnan')*ones(1,length(find(pars.M)))*10;
@@ -149,14 +150,15 @@ tmp_mcmcpars.tau.log = 0;
 tmp_mcmcpars.tau.subid = find(pars.M);
 
 if flags.tau_new == 0
-tmp_mcmcpars.tau.lims = [0.1 20];
+    % was upto 20 previously
+tmp_mcmcpars.tau.lims = [0.1 27];
 elseif flags.tau_new == 1
   tmp_mcmcpars.eta.lims = [0.1 3];
 end
 
 tmp_mcmcpars.tau.startval = 1./pars_example.eta(find(pars.M));
 tmp_mcmcpars.tau.priormu = tmp_mcmcpars.tau.startval;
-tmp_mcmcpars.tau.priorstd = 10*ones(1,length(find(pars.M)));
+tmp_mcmcpars.tau.priorstd = 5*ones(1,length(find(pars.M)));
 
 
 
