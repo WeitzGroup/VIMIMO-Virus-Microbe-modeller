@@ -1,4 +1,4 @@
-function [t, S, V, D] = simulate_ode(model, pars, tvec, S0, V0)
+function [t, S, V, D, I,E] = simulate_ode(model, pars, tvec, S0, V0)
 
 % set up initial conditions
 y0 = model.zeros();
@@ -14,8 +14,11 @@ NE  = round(max(max(pars.NE)));
 
 if model.name == 'SEIV'+string(model.NE)
     model = SEIV_diff_NE(model.NH,model.NV,NE);
+elseif model.name == 'SEIVD-diffabs'
+    model = SEIVD_diff_NE_diff_debris_abs(model.NH,model.NV,NE);
 else
     model = SEIVD_diff_NE_diff_debris(model.NH,model.NV,NE);
+
 end
 
 model.host_growth = host_growth;
@@ -36,6 +39,8 @@ ode = @(t,y) model.ode(t,y,pars);
 S = model.sum_hosts(y);
 V = model.sum_viruses(y);
 D = y(:,model.id.D); % debris
+I = y(:,model.id.I); % infections. % should be a 5*5 so 25 objects.
+E = y(:,model.id.E);
 
 % measurement bias
 if ~all(isnan(pars.epsilon))
