@@ -79,7 +79,7 @@ classdef ode_funs
             elseif obj.debris_inhib == 1
                 handle = @(pars,D) 1/(1+D/pars.Dc)^2;
             elseif obj.debris_inhib == 2
-                handle = @(pars,D) 1/(1+(D/pars.Dc)^2); %exponent corrected
+                handle = @(pars,D) 1./(1+(D./pars.Dc).^2); %exponent corrected
             elseif obj.debris_inhib == 3
                 handle = @(pars,D) 1/(1+(pars.Dc/D)^2); %exponent corrected and reciprocal
 
@@ -98,10 +98,55 @@ classdef ode_funs
                 handle = @(pars,D) 1/(1+(pars.Dc2/D)^2); %exponent corrected and reciprocal
 
             end
-        
         end
 
-        
+
+        function handle = debris_inhib_fun_third(obj)
+            if obj.debris_inhib==0
+                handle = @(pars,D) 1;
+            elseif obj.debris_inhib == 1
+                handle = @(pars,D) 1/(1+D/pars.Dc3)^2;
+            elseif obj.debris_inhib == 2
+                handle = @(pars,D) 1/(1+(D/pars.Dc3)^2); %exponent corrected
+            elseif obj.debris_inhib == 3
+                handle = @(pars,D) 1/(1+(pars.Dc3/D)^2); %exponent corrected and reciprocal
+
+            end
+        end
+  
+
+        function handle = debris_inhib_fun_fourth(obj)
+            if obj.debris_inhib==0
+                handle = @(pars,D) 1;
+            elseif obj.debris_inhib == 1
+                handle = @(pars,D) 1/(1+D/pars.Dc4)^2;
+            elseif obj.debris_inhib == 2
+                handle = @(pars,D) 1/(1+(D/pars.Dc4)^2); %exponent corrected
+            elseif obj.debris_inhib == 3
+                handle = @(pars,D) 1/(1+(pars.Dc4/D)^2); %exponent corrected and reciprocal
+
+            end
+        end
+
+        function handle = debris_inhib_fun_fifth(obj)
+            if obj.debris_inhib==0
+                handle = @(pars,D) 1;
+            elseif obj.debris_inhib == 1
+                handle = @(pars,D) 1/(1+D/pars.Dc5)^2;
+            elseif obj.debris_inhib == 2
+                handle = @(pars,D) 1/(1+(D/pars.Dc5)^2); %exponent corrected
+            elseif obj.debris_inhib == 3
+                handle = @(pars,D) 1/(1+(pars.Dc5/D)^2); %exponent corrected and reciprocal
+
+            end
+        end
+
     end
     
+
+
 end
+
+
+
+

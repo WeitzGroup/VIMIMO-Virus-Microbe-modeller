@@ -59,13 +59,26 @@ classdef SEIVD_diff_NE_diff_debris < ode_funs
             viral_decay_fun = obj.viral_decay_fun;
             viral_adsorb_fun = obj.viral_adsorb_fun; % only use in dV
             lysis_reset_fun = obj.lysis_reset_fun;
+
             debris_inhib_fun = obj.debris_inhib_fun;
             debris_inhib_fun_second = obj.debris_inhib_fun_second;
+            debris_inhib_fun_third = obj.debris_inhib_fun_third;
+            debris_inhib_fun_fourth = obj.debris_inhib_fun_fourth;
+            debris_inhib_fun_fifth = obj.debris_inhib_fun_fifth;
+
+
                   
-            Sdeb(1:3) =  y(1:3)*debris_inhib_fun(pars,D); % debris
-            Sdeb(4:5) =  y(4:5)*debris_inhib_fun_second(pars,D);
+            Sdeb(1) =  y(1)*debris_inhib_fun(pars,D); % debris
+            Sdeb(2) =  y(2)*debris_inhib_fun_second(pars,D);
+            Sdeb(3) =  y(3)*debris_inhib_fun_third(pars,D);
+            Sdeb(4) =  y(4)*debris_inhib_fun_fourth(pars,D);
+            Sdeb(5) =  y(5)*debris_inhib_fun_fifth(pars,D);
+            
+
+
+                       
+            %Sdeb = S.*debris_inhib_fun(pars,D); % debris
             Sdeb = Sdeb';
-            %Sdeb = S*debris_inhib_fun(pars,D); % debris
             
             dS = host_growth_fun(pars,S,N) - Sdeb.*((pars.M.*pars.phi)*V);
             dEmat = (pars.M.*pars.phi).*(Sdeb*V') - etaeff.*Emat(:,:,1) + lysis_reset_fun(pars,Imat,OH,V);
