@@ -139,7 +139,7 @@ plot(chain_stored(5000:10000,i+33),Color=blue); hold on;
 xlim([0 5000]);
 
 subplot(9,2,2*i)
-histogram(chain_stored(5001:10000,i+33),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',blue);
+histogram(chain_stored(5001:10000,i+33),'DisplayStyle','stairs','NumBins',100,'Normalization','pdf','LineWidth',1,'EdgeColor',blue);
 hold on;
 plot(-1:20,gaussian(-1:20,priors.tau.mean(i),priors.tau.std(i)),'LineWidth',2,'Color','k')
 xline(priors.tau.mean(i),Color='r',LineWidth=2);
@@ -349,7 +349,7 @@ subplot(9,2,2*i)
 histogram(chain_stored4(5001:10000,i+14),'DisplayStyle','stairs','NumBins',50,'Normalization','pdf','LineWidth',1,'EdgeColor',green);
 hold on;
 set(gca, 'YScale', 'log');
-xlim([-10 -7]);
+xlim([-12 -6]);
 
 end
 xlabel('log(\phi) ml/hrs')
