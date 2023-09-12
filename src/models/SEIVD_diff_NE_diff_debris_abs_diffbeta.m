@@ -1,4 +1,4 @@
-classdef SEIVD_diff_NE_diff_debris_abs < ode_funs
+classdef SEIVD_diff_NE_diff_debris_abs_diffbeta < ode_funs
     
     properties
         name;
@@ -11,7 +11,7 @@ classdef SEIVD_diff_NE_diff_debris_abs < ode_funs
     
     methods
         
-        function obj = SEIVD_diff_NE_diff_debris_abs(NH,NV,NE)
+        function obj = SEIVD_diff_NE_diff_debris_abs_diffbeta(NH,NV,NE)
             obj.name = sprintf('SEIV%d',NE);
             obj.NH = NH;
             obj.NV = NV;
@@ -43,7 +43,8 @@ classdef SEIVD_diff_NE_diff_debris_abs < ode_funs
         end
         
         function dydt = ode(obj,t,y,pars)
-            
+            % so we have the variable t here already.
+
             OH = ones(obj.NH,1);
             OV = ones(obj.NV,1);
             S = y(obj.id.S);
@@ -60,6 +61,7 @@ classdef SEIVD_diff_NE_diff_debris_abs < ode_funs
             viral_adsorb_fun = obj.viral_adsorb_fun; % only use in dV
             lysis_reset_fun = obj.lysis_reset_fun;
             viral_debris_interaction = obj.viral_debris_interaction;
+            diffbeta_function = obj.diffbeta_function;
 
             debris_inhib_fun = obj.debris_inhib_fun;
             debris_inhib_fun_second = obj.debris_inhib_fun_second;
@@ -100,7 +102,7 @@ classdef SEIVD_diff_NE_diff_debris_abs < ode_funs
             end
             
             dImat = etaeff.*Emat(:,:,end) - etaeff.*Imat - lysis_reset_fun(pars,Imat,OH,V);
-            dV = (pars.beta.*etaeff.*Imat)'*OH - V.*(viral_adsorb_fun(pars)'*Ndeb') - viral_decay_fun(pars,V) - viral_debris_interaction(pars,V,D);
+            dV = (diffbeta_function.*etaeff.*Imat)'*OH - V.*(viral_adsorb_fun(pars)'*Ndeb') - viral_decay_fun(pars,V) - viral_debris_interaction(pars,V,D);
             dD = sum(etaeff(:).*Imat(:)); % sum across all pairs for net lysis rate
             
             dydt = [dS; dEmat(:); dEmat2(:); dImat(:); dV; dD];
