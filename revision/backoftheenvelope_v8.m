@@ -14,7 +14,10 @@ tvec = 0:0.05:15.75; % for better viz
 
 pars2 = update_pars(pars1,pars_from_dist(chain_stored4(5001:end,:)),mcmcpars);
 pars2.epsilon = ones(1,10);
-pars2.prob = [0 0 0 0 0]';
+
+pars2.m = 1e-10*[1 1 1 1 1]';
+
+pars2.prob = [0.0 0 0 0 0]';
 
    pars2.phi = 1.0e-07 *[         0    0.4000         0         0      0;
     0.1979    0.8000    0.4000         0         0;
@@ -28,41 +31,41 @@ pars2.prob = [0 0 0 0 0]';
 %pars2.tau(2,1) = 0.5;
 %pars2.eta = zeros(5,5);
 
-pars2.tau = [0 4.2 0 0 0;
-    4.75 3.5 4 0 0;
-    0 0 2.5 0 0 ;
-    0 0 0 4.0 4.7;
-    0 0 0 4 2];
+pars2.tau = [0 5.2 0 0 0;
+            7.75 7.5 3 0 0;
+            0 0 4.5 0 0 ;
+            0 0 0 3.8 4.7;
+            0 0 0 3.8 2];
 pars2.eta(pars2.tau>0) = 1./pars2.tau(pars2.tau>0);
 
 % r
-pars2.r = [0.18,0.2,0.3,0.66,0.52]' ;
+pars2.r = [0.18,0.2,0.3,0.7,0.52]' ;
 
 
 % beta
 
-pars2.beta = [0  388.7231         0         0         0;
+pars2.beta = [0  348.7231         0         0         0;
   400.7512  305.9496  318.1492         0         0;
          0         0   5.7017         0         0;
-         0         0         0  422.0549  83.2599;
-         0         0         0  485.1209  80.9918];
+         0         0         0  522.0549  83.2599;
+         0         0         0  585.1209  80.9918];
 
 
 %pars2.debris = [3e1 1.5e7 1.5e7 1.1e7 1.1e7]';
-pars2.Dc = 3.7e6;
-pars2.Dc2 = 3.58e6;
-pars2.Dc3 = 8.9e6;
-pars2.Dc4 = 31.8e5;
-pars2.Dc5 = 23.8e5;
+pars2.Dc = 4.7e6;
+pars2.Dc2 = 4.98e6;
+pars2.Dc3 = 9.9e6;
+pars2.Dc4 = 16.8e5;
+pars2.Dc5 = 10.8e5;
 
 
 % NE
 
-pars2.NE = [     0    67     0     0     0;
-    64    85    70     0     0;
-     0     0    60     0     0;
-     0     0     0    60    98;
-     0     0     0    60   100];
+pars2.NE = [     0    50     0     0     0;
+               40    50   70     0     0;
+                 0     0    70     0     0;
+                 0     0     0    50    98;
+                 0     0     0    50   100];
 
 
 % pars2.NE = [     0    80     0     0     0;
@@ -83,7 +86,7 @@ pars2.NE = [     0    67     0     0     0;
 max_NE = round(max(max(pars2.NE)));
 model = SEIVD_diff_NE_diff_debris_abs(5,5,max_NE);
 model.host_growth = 0;
-model.viral_decay = 0;
+model.viral_decay = 1;
 model.viral_adsorb = 0;
 model.lysis_reset = 0;
 model.debris_inhib = 2;
@@ -188,7 +191,8 @@ ylim([1e5 1e8]);
 
 subplot(2,5,6)
 errorbar(time/60,mean(1e3*virus1'),std(1e3*virus1'),'o','MarkerSize',8,'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255]);hold on;
-set(gca, 'YScale', 'log');set(gca,'fontname','times')  % Set it to times
+set(gca, 'YScale', 'log');
+set(gca,'fontname','times')  % Set it to times
 ylim([1e4 1e11]);
     xlim([0 16]);
    xticks([0 2 4 6 8 10 12 14 16]);
@@ -202,8 +206,7 @@ title('\phi18:2','FontSize',18);
 
 subplot(2,5,7)
 errorbar(time/60,mean(1e3*virus2'),std(1e3*virus2'),'o','MarkerSize',8,  'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255] );hold on;
-set(gca, 'YScale', 'log');
-set(gca,'fontname','times')  % Set it to times
+set(gca, 'YScale', 'log');set(gca,'fontname','times')  % Set it to times
 ylim([1e4 1e11]);
     xlim([0 16]);
   xticks([0 2 4 6 8 10 12 14 16]);
