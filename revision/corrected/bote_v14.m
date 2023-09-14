@@ -1,6 +1,6 @@
 clc;
 clear all;
-
+tic
 load('./../combined_posteriors.mat');
 
 load('./../../data/triplicate_data.mat');
@@ -23,11 +23,11 @@ pars2.prob = [0 0 0 0 0]';
                                   0         0         0    0.6   0.22];
 
 
-pars2.tau = [0 5 0 0 0;
-    1.5 5 4 0 0;
-    0 0 2.5 0 0 ;
-    0 0 0 4.0 4.7;
-    0 0 0 4.5 2];
+pars2.tau =[0 2.3 0 0 0;
+            2 2.3 2 0 0;
+            0 0 2 0 0 ;
+            0 0 0 2.0 4.7;
+            0 0 0 2.5 2];
 pars2.eta(pars2.tau>0) = 1./pars2.tau(pars2.tau>0);
 
 % r
@@ -37,15 +37,15 @@ pars2.r = [0.18,0.25,0.3,0.66,0.52]' ;
 % beta
 
 pars2.beta = [0  158.7231         0         0         0;
-  500.7512  105.9496  218.1492         0         0;
-         0         0   5.7017         0         0;
+  150.7512  105.9496  10.1492         0         0;
+         0         0   100.7017         0         0;
          0         0         0  522.0549  63.2599;
          0         0         0  585.1209  60.9918];
 
 
 pars2.Dc = 5.9e6;
-pars2.Dc2 = 4.98e6;
-pars2.Dc3 = 12.9e6;
+pars2.Dc2 = 5.0e6;
+pars2.Dc3 = 9.9e6;
 pars2.Dc4 = 20.8e5;
 pars2.Dc5 = 16.8e5;
 
@@ -53,9 +53,9 @@ pars2.Dc5 = 16.8e5;
 
 % NE
 
-pars2.NE = [     0    40     0     0     0;
-                14    50    70     0     0;
-                0     0    60     0     0;
+pars2.NE = [     0    50     0     0     0;
+                80    50    30     0     0;
+                0     0    30     0     0;
                 0     0     0    50    98;
                 0     0     0    50   100];
 
@@ -77,6 +77,7 @@ model.name = 'SEIVD-diffabs';
 %plot(t2,sum(I_median,2)) -- time series of sum of all infected cells.
 
 %plot(t2,sum(I_median,2)+sum(E_median,2) + sum(S_median,2) )
+toc
 
 %%
 
@@ -250,3 +251,4 @@ han.YLabel.Visible='on';
 set(gca,'FontSize',20);
 set(gca,'fontname','times')  % Set it to times
 xlabel("Time (hours)");
+
