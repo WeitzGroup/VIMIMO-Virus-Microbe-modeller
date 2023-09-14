@@ -15,6 +15,7 @@ classdef ode_funs
         lysis_reset = 0; % 0 = no lysis reset; 1 = adsorption by new virsues resets lytic cycle from I to first E class
         debris_inhib = 0; % 0 = no debris inhibition; 1 = build-up of dead cells inhibits infection (requires defining pars.Dc)
         diff_beta = 0;
+        %NH = 5; %% have to remove later -- this is default value
     end
     
     methods
@@ -26,9 +27,9 @@ classdef ode_funs
         
         function handle = viral_growth(obj)
             if obj.diff_beta == 0
-                handle = @(pars,t, Imat) pars.beta; % will do later  pars.beta.*etaeff.*Imat)'*OH
+                handle = @(pars,t, Imat, OH, etaeff)  (pars.beta.*etaeff.*Imat)'* OH;
             else
-                handle = @(pars,t) 1+ pars.beta;
+                handle = @(pars,t, Imat, OH, etaeff)  ((pars.beta + (pars.beta2 - pars.beta).*heaviside(t-5).*pars.M) .*etaeff.*Imat)'* OH;
             end
         end
 

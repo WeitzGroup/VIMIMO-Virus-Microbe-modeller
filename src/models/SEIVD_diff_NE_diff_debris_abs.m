@@ -52,7 +52,7 @@ classdef SEIVD_diff_NE_diff_debris_abs < ode_funs
             V = y(obj.id.V);
             D = y(obj.id.D);
             N = S+sum(Emat,3)*OV+Imat*OV;
-            etaeff = pars.eta*(pars.NE+1);
+            etaeff = pars.eta.*(pars.NE+1);
 
             exposed_transition_fun = obj.exposed_transition_fun;
             host_growth_fun = obj.host_growth_fun;
@@ -60,6 +60,7 @@ classdef SEIVD_diff_NE_diff_debris_abs < ode_funs
             viral_adsorb_fun = obj.viral_adsorb_fun; % only use in dV
             lysis_reset_fun = obj.lysis_reset_fun;
             viral_debris_interaction = obj.viral_debris_interaction;
+            viral_growth = obj.viral_growth;
 
             debris_inhib_fun = obj.debris_inhib_fun;
             debris_inhib_fun_second = obj.debris_inhib_fun_second;
@@ -100,7 +101,8 @@ classdef SEIVD_diff_NE_diff_debris_abs < ode_funs
             end
             
             dImat = etaeff.*Emat(:,:,end) - etaeff.*Imat - lysis_reset_fun(pars,Imat,OH,V);
-            dV = (pars.beta.*etaeff.*Imat)'*OH - V.*(viral_adsorb_fun(pars)'*Ndeb') - viral_decay_fun(pars,V) - viral_debris_interaction(pars,V,D);
+            %dV = (pars.beta.*etaeff.*Imat)'*OH - V.*(viral_adsorb_fun(pars)'*Ndeb') - viral_decay_fun(pars,V) - viral_debris_interaction(pars,V,D);
+            dV = viral_growth(pars,t, Imat, OH, etaeff) - V.*(viral_adsorb_fun(pars)'*Ndeb') - viral_decay_fun(pars,V) - viral_debris_interaction(pars,V,D);
             dD = sum(etaeff(:).*Imat(:)); % sum across all pairs for net lysis rate
             
             dydt = [dS; dEmat(:); dEmat2(:); dImat(:); dV; dD];
