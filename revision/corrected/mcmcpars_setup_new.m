@@ -60,50 +60,50 @@ tmp_mcmcpars.tau.priorstd = [10 10 10 10 10 10 10 10 10];
 if (model.debris_inhib == 1 || model.debris_inhib == 2 || model.debris_inhib == 3)
     tmp_mcmcpars.Dc.log = 1;
     tmp_mcmcpars.Dc.subid = 1;
-    tmp_mcmcpars.Dc.lims = [1e4 1e9];
+    tmp_mcmcpars.Dc.lims = [1e5 5e8];
     tmp_mcmcpars.Dc.startval = pars_example.Dc;
     tmp_mcmcpars.Dc.priormu = pars_example.Dc;
-    tmp_mcmcpars.Dc.priorstd = +Inf;
+    tmp_mcmcpars.Dc.priorstd = 1e7;
 
 end
 
 if (model.debris_inhib == 1 || model.debris_inhib == 2 || model.debris_inhib == 3)
     tmp_mcmcpars.Dc2.log = 1;
     tmp_mcmcpars.Dc2.subid = 1;
-    tmp_mcmcpars.Dc2.lims = [1e4 1e9];
-    tmp_mcmcpars.Dc2.startval = pars_example.Dc;
-    tmp_mcmcpars.Dc2.priormu = pars_example.Dc;
-    tmp_mcmcpars.Dc2.priorstd = +Inf;
+    tmp_mcmcpars.Dc2.lims = [1e5 5e8];
+    tmp_mcmcpars.Dc2.startval = pars_example.Dc2;
+    tmp_mcmcpars.Dc2.priormu = pars_example.Dc2;
+    tmp_mcmcpars.Dc2.priorstd = 1e7;
 
 end
 
 if (model.debris_inhib == 1 || model.debris_inhib == 2 || model.debris_inhib == 3)
     tmp_mcmcpars.Dc3.log = 1;
     tmp_mcmcpars.Dc3.subid = 1;
-    tmp_mcmcpars.Dc3.lims = [1e4 1e9];
-    tmp_mcmcpars.Dc3.startval = pars_example.Dc;
-    tmp_mcmcpars.Dc3.priormu = pars_example.Dc;
-    tmp_mcmcpars.Dc3.priorstd = +Inf;
+    tmp_mcmcpars.Dc3.lims = [1e5 5e8];
+    tmp_mcmcpars.Dc3.startval = pars_example.Dc3;
+    tmp_mcmcpars.Dc3.priormu = pars_example.Dc3;
+    tmp_mcmcpars.Dc3.priorstd = 1e7;
 
 end
 
 if (model.debris_inhib == 1 || model.debris_inhib == 2 || model.debris_inhib == 3)
     tmp_mcmcpars.Dc4.log = 1;
     tmp_mcmcpars.Dc4.subid = 1;
-    tmp_mcmcpars.Dc4.lims = [1e4 1e9];
-    tmp_mcmcpars.Dc4.startval = pars_example.Dc;
-    tmp_mcmcpars.Dc4.priormu = pars_example.Dc;
-    tmp_mcmcpars.Dc4.priorstd = +Inf;
+    tmp_mcmcpars.Dc4.lims = [1e5 5e8];
+    tmp_mcmcpars.Dc4.startval = pars_example.Dc4;
+    tmp_mcmcpars.Dc4.priormu = pars_example.Dc4;
+    tmp_mcmcpars.Dc4.priorstd = 1e7;
 
 end
 
 if (model.debris_inhib == 1 || model.debris_inhib == 2 || model.debris_inhib == 3)
     tmp_mcmcpars.Dc5.log = 1;
     tmp_mcmcpars.Dc5.subid = 1;
-    tmp_mcmcpars.Dc5.lims = [1e4 1e9];
-    tmp_mcmcpars.Dc5.startval = pars_example.Dc;
-    tmp_mcmcpars.Dc5.priormu = pars_example.Dc;
-    tmp_mcmcpars.Dc5.priorstd = +Inf;
+    tmp_mcmcpars.Dc5.lims = [1e5 5e8];
+    tmp_mcmcpars.Dc5.startval = pars_example.Dc5;
+    tmp_mcmcpars.Dc5.priormu = pars_example.Dc5;
+    tmp_mcmcpars.Dc5.priorstd = 1e7;
 
 end
 

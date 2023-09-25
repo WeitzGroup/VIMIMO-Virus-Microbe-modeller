@@ -11,7 +11,7 @@ linewidth = 2;
 color_ofthe_fit = [1 0 0]*0.5;
 color_ofthe_fill = [0.95 0 0];
 transparency = 0.25;
-tvec = 0:0.05:15.75; % for better viz
+tvec = 0:0.01:15.75; % for better viz
 %% new parameters
 
 pars2 = update_pars(pars1,pars_from_dist(chain_stored4(5001:end,:)),mcmcpars);
@@ -79,9 +79,9 @@ model.diff_beta = 1;
 model.name = 'SEIVD-diffabs';
 
 [t2,S_median,V_median,D_median,I_median,E_median] =  simulate_ode(model,pars2,tvec,pars2.S0,pars2.V0); % mcmc parameter set
-%plot(t2,sum(I_median,2)) -- time series of sum of all infected cells.
+plot(t2,sum(I_median,2)) %-- time series of sum of all infected cells.
 
-%plot(t2,sum(I_median,2)+sum(E_median,2) + sum(S_median,2) )
+plot(t2,sum(I_median,2)+sum(E_median,2) + sum(S_median,2) )
 toc
 
 %%
