@@ -43,7 +43,7 @@ pars2.beta = [0  1.7231         0         0         0;
          0         0         0  522.0549  60.2599;
          0         0         0  485.1209  50.9918];
 
-pars2.beta2 = pars2.beta;
+
 
 
 pars2.Dc = 5e6;
@@ -53,15 +53,6 @@ pars2.Dc4 = 19.3e5;
 pars2.Dc5 = 16.0e5;
 
 
-
-% NE
-
-%pars2.NE = 500*pars2.M;
-pars2.NE = [  0 500 0 0 0;
-            500 500 500 0 0;
-              0  0 500 0 0;
-              0  0  0 500 500;
-              0  0  0 500 500]; 
 
 
 pars2.NE = 200*pars2.M; %otherwise this will take a very long time
@@ -78,29 +69,201 @@ model.debris_inhib3 = 2;
 model.debris_inhib4 = 2;
 model.debris_inhib5 = 2;
 
-model.diff_beta = 1;
+model.diff_beta = 0;
 
 
 model.name = 'SEIVD-diffabs';
 
-seed = 50040;
+seed = 50060;
 
 while exist('revised'+string(seed)+'.mat','file') == 2
     seed = seed + 1;
 end
-%load('revised'+string(seed-1)+'.mat')
 
 
 
-%[t2,S_median,V_median,D_median,I_median,E_median] =  simulate_ode(model,pars2,tvec,pars2.S0,pars2.V0); % mcmc parameter set
+
+[t_median,S_median,V_median,D_median,I_median,E_median] =  simulate_ode(model,pars2,tvec,pars2.S0,pars2.V0); % mcmc parameter set
+%% figures before inference
+
+hf3 = figure;
+subplot(2,5,1)
+errorbar(time/60,mean(1e3*host1'),std(1e3*host1'),'o','MarkerSize',8,'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255]);hold on;
+set(gca, 'YScale', 'log');
+set(gca,'fontname','times')  % Set it to times
+ylim([1e5 1e8]);
+    xlim([0 16]);
+    xticks([0 2 4 6 8 10 12 14 16]);
+    set(gca,'FontSize',20);
+    axis('square');
+    yticks([1e5 1e6 1e7 1e8]);
+ylabel({'Host density';'(cells/ml)'});
+title('CBA 4','FontSize',18);
+    plot(t_median,S_median(:,1),'-','Color',color_ofthe_fit,'LineWidth',linewidth);
+
+
+
+
+subplot(2,5,2)
+errorbar(time/60,mean(1e3*host2'),std(1e3*host2'),'o','MarkerSize',8,  'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255] );hold on;
+set(gca, 'YScale', 'log');
+set(gca,'fontname','times')  % Set it to times
+ylim([1e5 1e8]);
+    xlim([0 16]);
+   xticks([0 2 4 6 8 10 12 14 16]);
+    set(gca,'FontSize',20);
+    axis('square');
+    yticks([1e5 1e6 1e7 1e8]);
+    title('CBA 18','FontSize',18);
+   
+    plot(t_median,S_median(:,2),'-','Color',color_ofthe_fit,'LineWidth',linewidth);
+
+
+
+
+subplot(2,5,3)
+errorbar(time/60,mean(1e3*host3'),std(1e3*host3'),'o','MarkerSize',8, 'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255]);hold on;
+set(gca, 'YScale', 'log');
+set(gca,'fontname','times')  % Set it to times
+ylim([1e5 1e8]);
+    xlim([0 16]);
+    xticks([0 2 4 6 8 10 12 14 16]);
+    set(gca,'FontSize',20);
+    axis('square');
+    yticks([1e5 1e6 1e7 1e8]);
+title('CBA 38','FontSize',18);
+
+    plot(t_median,S_median(:,3),'-','Color',color_ofthe_fit,'LineWidth',linewidth);
+
+
+
+subplot(2,5,4)
+errorbar(time/60,mean(1e3*host4'),std(1e3*host4'),'o','MarkerSize',8, 'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255]);hold on;
+set(gca, 'YScale', 'log');set(gca,'FontSize',20)
+set(gca,'fontname','times')  % Set it to times
+ylim([1e5 1e8]);
+    xlim([0 16]);
+  xticks([0 2 4 6 8 10 12 14 16]);
+  axis('square');
+    yticks([1e5 1e6 1e7 1e8]);
+    title('PSA H100','FontSize',18);
+    
+    plot(t_median,S_median(:,4),'-','Color',color_ofthe_fit,'LineWidth',linewidth);
+
+
+
+
+subplot(2,5,5)
+errorbar(time/60,mean(1e3*host5'),std(1e3*host5'),'o','MarkerSize',8, 'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255]);hold on;
+set(gca, 'YScale', 'log');set(gca,'FontSize',20);
+set(gca,'fontname','times')  % Set it to times
+ylim([1e5 1e8]);
+    xlim([0 16]);
+    xticks([0 2 4 6 8 10 12 14 16]);
+    axis('square');
+    yticks([1e5 1e6 1e7 1e8]);
+    title('PSA 13-15','FontSize',18);
+    
+    plot(t_median,S_median(:,5),'-','Color',color_ofthe_fit,'LineWidth',linewidth);
+
+%xlabel("Time (hours)");
+%ylabel("Host density (cell/ml)");
+
+
+
+
+
+
+subplot(2,5,6)
+errorbar(time/60,mean(1e3*virus1'),std(1e3*virus1'),'o','MarkerSize',8,'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255]);hold on;
+set(gca, 'YScale', 'log');set(gca,'fontname','times')  % Set it to times
+ylim([1e4 1e11]);
+    xlim([0 16]);
+   xticks([0 2 4 6 8 10 12 14 16]);
+    set(gca,'FontSize',20);
+    axis('square');
+    yticks([1e4 1e6 1e8 1e10]);
+ylabel({'Phage density';'(virions/ml)'});
+title('\phi18:2','FontSize',18);
+    
+    plot(t_median,V_median(:,1),'-','Color',color_ofthe_fit,'LineWidth',linewidth);
+
+subplot(2,5,7)
+errorbar(time/60,mean(1e3*virus2'),std(1e3*virus2'),'o','MarkerSize',8,  'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255] );hold on;
+set(gca, 'YScale', 'log');
+set(gca,'fontname','times')  % Set it to times
+ylim([1e4 1e11]);
+    xlim([0 16]);
+  xticks([0 2 4 6 8 10 12 14 16]);
+    set(gca,'FontSize',20);
+    axis('square');
+    yticks([1e4 1e6 1e8 1e10]);
+    title('\phi18:3','FontSize',18);
+    
+    plot(t_median,V_median(:,2),'-','Color',color_ofthe_fit,'LineWidth',linewidth);
+
+
+
+
+subplot(2,5,8)
+errorbar(time/60,mean(1e3*virus3'),std(1e3*virus3'),'o','MarkerSize',8, 'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255]);hold on;
+set(gca, 'YScale', 'log');set(gca,'fontname','times')  % Set it to times
+ylim([1e4 1e11]);
+    xlim([0 16]);
+  xticks([0 2 4 6 8 10 12 14 16]);
+    set(gca,'FontSize',20);
+    axis('square');
+   yticks([1e4 1e6 1e8 1e10]);
+   title('\phi38:1','FontSize',18);
+    
+    plot(t_median,V_median(:,3),'-','Color',color_ofthe_fit,'LineWidth',linewidth);
+
+subplot(2,5,9)
+errorbar(time/60,mean(1e3*virus4'),std(1e3*virus4'),'o','MarkerSize',8, 'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255]);hold on;
+set(gca, 'YScale', 'log');set(gca,'fontname','times')  % Set it to times
+ylim([1e4 1e11]);
+    xlim([0 16]);
+   xticks([0 2 4 6 8 10 12 14 16]);
+    set(gca,'FontSize',20);
+    axis('square');
+   yticks([1e4 1e6 1e8 1e10]);
+   title('PSA HP1','FontSize',18);
+    
+    plot(t_median,V_median(:,4),'-','Color',color_ofthe_fit,'LineWidth',linewidth);
+
+
+
+
+subplot(2,5,10)
+errorbar(time/60,mean(1e3*virus5'),std(1e3*virus5'),'o','MarkerSize',8, 'MarkerEdgeColor','k','MarkerFaceColor',[70/255,130/255,180/255]);hold on;
+set(gca, 'YScale', 'log');set(gca,'fontname','times')  % Set it to times
+ylim([1e4 1e11]);
+    xlim([0 16]);
+ xticks([0 2 4 6 8 10 12 14 16]);
+    set(gca,'FontSize',20);
+    axis('square');
+  yticks([1e4 1e6 1e8 1e10]);
+  title('PSA HS6','FontSize',18);
+    
+    plot(t_median,V_median(:,5),'-','Color',color_ofthe_fit,'LineWidth',linewidth);
+    %legend('Data','95% confidence interval','Bayesian fit');
+    %legend('Box','off');
+
+han=axes(hf3,'visible','off'); 
+han.Title.Visible='on';
+han.XLabel.Visible='on';
+han.YLabel.Visible='on';
+set(gca,'FontSize',20);
+set(gca,'fontname','times')  % Set it to times
+xlabel("Time (hours)");
 
 
 %% inference part
 
-mcmcoptions.nsimu = 10000;
-transient_id = 3000;
+mcmcoptions.nsimu = 1000;
+transient_id = 300;
 lambda = 0;
-include_pars = {'beta','phi','tau','Dc','Dc2','Dc3','Dc4','Dc5'};
+include_pars = {'beta','phi','tau'};
 
 % can vectorize for all the 10 time series,
 % then ssfun needs to be a 10 element vector -- now set to sum.

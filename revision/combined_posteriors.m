@@ -11,6 +11,8 @@ green = [0.4660 0.6740 0.1880];
 
 addpath(genpath('./..'));
 
+
+
 seed = 20031;
 load('./../results/SEIVD-diff-all-seed'+string(seed)+'.mat')
 chain_stored = chain(1:10000,:);

@@ -18,7 +18,7 @@ tmp_mcmcpars.beta.subid = find(pars.M);
 tmp_mcmcpars.beta.lims = [0 1000];
 tmp_mcmcpars.beta.startval = pars_example.beta(find(pars.M));
 tmp_mcmcpars.beta.priormu = pars.beta(find(pars.M));
-tmp_mcmcpars.beta.priorstd = 300*ones(1,length(find(pars.M)));
+tmp_mcmcpars.beta.priorstd = [200 200 50 600 600 200 50 100 200];
 
 % adsorption rate phi
     tmp_mcmcpars.phi.log = 1;
@@ -26,7 +26,7 @@ tmp_mcmcpars.beta.priorstd = 300*ones(1,length(find(pars.M)));
     tmp_mcmcpars.phi.lims = [1e-12 1e-5];
     tmp_mcmcpars.phi.startval = pars_example.phi(find(pars.M));
     tmp_mcmcpars.phi.priormu = pars.phi(find(pars.M));
-    tmp_mcmcpars.phi.priorstd = [4 4 4 4 4 4 4 4 4];
+    tmp_mcmcpars.phi.priorstd = [1 2 2 1 2 2 2 2 2];
 
 
 % inverse latent period eta
@@ -51,7 +51,7 @@ tmp_mcmcpars.tau.subid = find(pars.M);
 tmp_mcmcpars.tau.lims = [0.1 10];
 tmp_mcmcpars.tau.startval = 1./pars_example.eta(find(pars.M));
 tmp_mcmcpars.tau.priormu = tmp_mcmcpars.tau.startval;
-tmp_mcmcpars.tau.priorstd = [10 10 10 10 10 10 10 10 10];
+tmp_mcmcpars.tau.priorstd = [2 2 3 2 2 2 2 2 3];
 
 % number of compartments
 % will do later
